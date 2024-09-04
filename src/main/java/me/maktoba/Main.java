@@ -1,5 +1,7 @@
 package me.maktoba;
 
+import io.github.cdimascio.dotenv.Dotenv;
+import me.maktoba.listeners.SlashCommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -13,8 +15,11 @@ import static net.dv8tion.jda.api.interactions.commands.OptionType.STRING;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        Dotenv config = Dotenv.configure().load();
+        String token = config.get("TOKEN");
+
         JDA jda = JDABuilder
-                  .createLight("token", Collections.emptyList())
+                  .createLight(token, Collections.emptyList())
                   .addEventListeners(new SlashCommandListener())
                   .build();
 
