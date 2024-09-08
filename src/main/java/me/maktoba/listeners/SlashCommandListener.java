@@ -2,6 +2,8 @@ package me.maktoba.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.maktoba.JBot;
+import me.maktoba.commands.music.PlayCommand;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -19,7 +21,7 @@ public class SlashCommandListener extends ListenerAdapter {
         List<CommandData> commandData = new ArrayList<>();
 
         commandData.add(Commands.slash("reverse", "Reverses given text")
-                .addOption(OptionType.STRING, "message", "message to reverse", true));
+                   .addOption(OptionType.STRING, "message", "message to reverse", true));
 
         commandData.add(Commands.slash("say", "Bot will say what you tell it to")
                    .addOption(OptionType.STRING, "message", "message to say", true));
@@ -43,7 +45,7 @@ public class SlashCommandListener extends ListenerAdapter {
                 break;
 
             case "sarcasm":
-                String inputString = event.getOption("message", OptionMapping::getAsString).toLowerCase();
+                String inputString = event.getOption("message", OptionMapping::getAsString);
                 StringBuilder toReturn = new StringBuilder();
 
                 for (int i = 0; i < inputString.length(); i++) {
@@ -70,6 +72,8 @@ public class SlashCommandListener extends ListenerAdapter {
 
                 event.reply(out).queue();
                 break;
+
+            case "play":
 
             default:
                 event.reply("I can't handle that command right now :(").setEphemeral(true).queue();

@@ -11,8 +11,11 @@ import java.util.List;
 public abstract class Command {
 
     public JBot bot;
+    public String name;
+    public String description;
     public List<OptionData> commandList;
     public List<SubcommandData> subCommands;
+
 
     public Command(JBot bot) {
         this.bot = bot;
