@@ -17,12 +17,20 @@ public class SlashCommandListener extends ListenerAdapter {
     @Override
     public void onGuildReady(GuildReadyEvent event) {
         List<CommandData> commandData = new ArrayList<>();
-        commandData.add(Commands.slash("say", "Bot will say what you tell it to")
-                   .addOption(OptionType.STRING, "content", "what bot says", true));
 
-        commandData.add(Commands.slash("sarcasm", "Every other character is uppercase"));
-        commandData.add(Commands.slash("spoiler", "Covers message with potential spoilers"));
-        commandData.add(Commands.slash("reverse", "Reverses given text"));
+        commandData.add(Commands.slash("reverse", "Reverses given text")
+                .addOption(OptionType.STRING, "message", "message to reverse", true));
+
+        commandData.add(Commands.slash("say", "Bot will say what you tell it to")
+                   .addOption(OptionType.STRING, "message", "message to say", true));
+
+        commandData.add(Commands.slash("sarcasm", "Every other character is uppercase")
+                   .addOption(OptionType.STRING, "message", "message to alter", true));
+
+        commandData.add(Commands.slash("spoiler", "Covers message with potential spoilers")
+                   .addOption(OptionType.STRING, "message", "message to hide", true));
+
+
         event.getGuild().updateCommands().addCommands(commandData).queue();
     }
 
@@ -30,12 +38,12 @@ public class SlashCommandListener extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         switch (event.getName()) {
             case "say":
-                String content = event.getOption("content", OptionMapping::getAsString);
+                String content = event.getOption("message", OptionMapping::getAsString);
                 event.reply(content).queue();
                 break;
 
             case "sarcasm":
-                String inputString = event.getOption("change", OptionMapping::getAsString).toLowerCase();
+                String inputString = event.getOption("message", OptionMapping::getAsString).toLowerCase();
                 StringBuilder toReturn = new StringBuilder();
 
                 for (int i = 0; i < inputString.length(); i++) {
@@ -48,11 +56,12 @@ public class SlashCommandListener extends ListenerAdapter {
                 break;
 
             case "spoiler":
-                String string = event.getOption("content", OptionMapping::getAsString);
+                String string = event.getOption("message", OptionMapping::getAsString);
                 event.reply("||" + string + "||").queue();
+                break;
 
             case "reverse":
-                String strung = event.getOption("content", OptionMapping::getAsString);
+                String strung = event.getOption("message", OptionMapping::getAsString);
 
                 String out = "";
                 for (int i = strung.length() - 1 ; i >= 0; i--) {
@@ -60,6 +69,7 @@ public class SlashCommandListener extends ListenerAdapter {
                 }
 
                 event.reply(out).queue();
+                break;
 
             default:
                 event.reply("I can't handle that command right now :(").setEphemeral(true).queue();
