@@ -1,29 +1,19 @@
 package me.maktoba;
 
 import java.io.IOException;
-import java.util.Collections;
 
-import me.maktoba.listeners.GuildListener;
-import me.maktoba.listeners.MessageReactionListener;
-import me.maktoba.listeners.SlashCommandListener;
+import me.maktoba.commands.CommandRegistry;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.interactions.commands.Command;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import javax.security.auth.login.LoginException;
-
-import static net.dv8tion.jda.api.interactions.commands.OptionType.STRING;
 
 public class JBot {
 
@@ -49,12 +39,8 @@ public class JBot {
         //cache all users on startup
         builder.setChunkingFilter(ChunkingFilter.ALL);
 
-        //register listeners
-
         shardManager = builder.build();
-        shardManager.addEventListener(new SlashCommandListener(),
-                                      new MessageReactionListener(),
-                                      new GuildListener());
+        shardManager.addEventListener(new CommandRegistry(this));
 
     }
 
