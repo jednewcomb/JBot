@@ -31,16 +31,24 @@ public class JBot {
 
         builder.enableIntents(GatewayIntent.GUILD_MEMBERS,
                               GatewayIntent.GUILD_MESSAGES,
-                              GatewayIntent.GUILD_PRESENCES);
+                              GatewayIntent.GUILD_PRESENCES,
+                              GatewayIntent.GUILD_VOICE_STATES);
 
-        //cache only online users
-        builder.setMemberCachePolicy(MemberCachePolicy.ONLINE);
+        builder.addEventListeners(new CommandRegistry(this));
+
+        //before we had this set to only online users
+        //so for some reason, when we were calling
+        //member.getAudioChannel in PlayCommand
+        //with that policy, it kept returning null.
+        //it returns null because we weren't cacheing
+        //users correctly I guess. This will need to be
+        //changed and addressed in the future
+        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 
         //cache all users on startup
         builder.setChunkingFilter(ChunkingFilter.ALL);
 
         shardManager = builder.build();
-        shardManager.addEventListener(new CommandRegistry(this));
 
     }
 

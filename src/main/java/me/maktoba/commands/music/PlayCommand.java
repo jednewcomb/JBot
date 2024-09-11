@@ -1,8 +1,6 @@
 package me.maktoba.commands.music;
 
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import me.maktoba.JBot;
@@ -13,6 +11,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
+
+import java.util.Objects;
 
 public class PlayCommand extends Command {
 
@@ -27,10 +27,9 @@ public class PlayCommand extends Command {
         Member member = event.getMember();
 
         AudioChannel myChannel = member.getVoiceState().getChannel();
-        // we neeeeed to figure out a way to set permissions. probably just through the commands?
 
         if (myChannel == null) {
-            event.reply("You are not currently in a voice channel!").queue();
+            event.reply("You are not in a voice channel!").queue();
         }
 
         AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
@@ -39,9 +38,7 @@ public class PlayCommand extends Command {
         AudioManager manager = guild.getAudioManager();
         manager.setSendingHandler(new AudioPlayerSendHandler(playerManager.createPlayer()));
 
-
-
-        event.reply("Joining voice channel: " + myChannel.getName());
+        //event.reply("Joining voice channel: " + myChannel.getName()).queue();
 
         manager.openAudioConnection(myChannel);
     }
@@ -53,8 +50,6 @@ Implement an AudioSendHandler
     Mine: In its own class found in "handlers" package - very simple
     Best: In "MusicHandler" found in "handlers" package.
         MusicHandler music = bot.musicListener.getMusic(event, true);
-
-
 
 
         It looks like:

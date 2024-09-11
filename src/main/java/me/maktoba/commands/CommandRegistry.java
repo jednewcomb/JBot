@@ -66,6 +66,4 @@ public class CommandRegistry extends ListenerAdapter {
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         event.getGuild().updateCommands().addCommands(unpackCommandData()).queue();
     }
-
-
 }

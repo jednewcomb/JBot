@@ -1,6 +1,7 @@
 package me.maktoba.commands;
 
 import me.maktoba.JBot;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
@@ -13,8 +14,11 @@ public abstract class Command {
     public JBot bot;
     public String name;
     public String description;
+    public List<OptionData> optionData;
+    public Permission botPermissions;
     public List<OptionData> commandList;
     public List<SubcommandData> subCommands;
+
 
 
     public Command(JBot bot) {
