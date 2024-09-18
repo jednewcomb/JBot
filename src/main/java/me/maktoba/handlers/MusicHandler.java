@@ -40,19 +40,4 @@ public class MusicHandler implements AudioSendHandler {
     }
 
 
-    public static class TrackScheduler extends AudioEventAdapter {
-
-        public TrackScheduler(AudioPlayer audioPlayer) {
-
-        }
-
-        @Override
-        public void onEvent(AudioEvent audioEvent) {
-
-        }
-    }
-
-
-
-
 }
