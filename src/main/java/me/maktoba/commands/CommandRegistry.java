@@ -50,7 +50,7 @@ public class CommandRegistry extends ListenerAdapter {
         List<CommandData> commandData = new ArrayList<>();
         for (Command command : commandList) {
             SlashCommandData slashCommand
-                    = Commands.slash(command.name, command.description).addOptions(command.commandList);
+                    = Commands.slash(command.name, command.description).addOptions(command.commandOptionData);
 
             if (!command.subCommands.isEmpty()) {
                 commandData.add(slashCommand);

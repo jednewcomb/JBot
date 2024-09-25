@@ -1,37 +1,32 @@
 package me.maktoba.handlers;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.player.event.AudioEvent;
-import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
-import com.sedmelluq.discord.lavaplayer.player.event.AudioEventListener;
-import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
+import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
+import net.dv8tion.jda.api.entities.Guild;
 
 import java.nio.ByteBuffer;
-
 
 //You may only use one AudioSendHandler per Guild and not use the same instance on another Guild!
 public class MusicHandler implements AudioSendHandler {
 
     private final AudioPlayer audioPlayer;
-    private TrackScheduler trackScheduler;
-    private AudioFrame lastFrame;
+    private final ByteBuffer buffer = ByteBuffer.allocate(1024);
+    private final MutableAudioFrame frame = new MutableAudioFrame();
 
     public MusicHandler(AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
-        this.trackScheduler = new TrackScheduler(audioPlayer);
+        this.frame.setBuffer(buffer);
     }
 
     @Override
     public boolean canProvide() {
-        lastFrame = audioPlayer.provide();
-        return lastFrame != null;
+        return audioPlayer.provide(frame);
     }
 
     @Override
     public ByteBuffer provide20MsAudio() {
-        return ByteBuffer.wrap(lastFrame.getData());
+        return buffer.flip();
     }
 
     @Override

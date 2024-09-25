@@ -16,14 +16,14 @@ public abstract class Command {
     public String description;
     public List<OptionData> optionData;
     public Permission botPermissions;
-    public List<OptionData> commandList;
+    public List<OptionData> commandOptionData;
     public List<SubcommandData> subCommands;
 
 
 
     public Command(JBot bot) {
         this.bot = bot;
-        this.commandList = new ArrayList<>();
+        this.commandOptionData = new ArrayList<>();
         this.subCommands = new ArrayList<>();
     }
 

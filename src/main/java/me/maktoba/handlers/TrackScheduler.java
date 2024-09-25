@@ -2,11 +2,9 @@ package me.maktoba.handlers;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
-import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -21,28 +19,8 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     @Override
-    public void onPlayerPause(AudioPlayer player) {
-        player.setPaused(true); //this could be wrong, probs is :D
-    }
-
-    @Override
-    public void onPlayerResume(AudioPlayer player) {
-        if (player.isPaused()) {
-            player.playTrack(queue.peek()); //if its paused it might not be playing, though?
-        }
-    }
-
-    @Override
-    public void onTrackStart(AudioPlayer player, AudioTrack track) {
-        //a track started playing
-    }
-
-    @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        if (endReason.mayStartNext) {
-            // start next track in queue, set
-            player.startTrack(queue.poll(), false);
-        }
+        player.startTrack(queue.poll(), false);
 
         // endReason == FINISHED: A track finished or died by an exception (mayStartNext = true).
         // endReason == LOAD_FAILED: Loading of a track failed (mayStartNext = true).
@@ -51,19 +29,19 @@ public class TrackScheduler extends AudioEventAdapter {
         // endReason == CLEANUP: Player hasn't been queried for a while, if you want you can put a
         //                       clone of this back to your queue
     }
-    @Override
-    public void onTrackException(AudioPlayer player , AudioTrack track, FriendlyException exception) {
-        // An already playing track threw an exception (track end event will still be received separately)
-    }
-
-    @Override
-    public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs) {
-        // Audio track hs been unable to provide us any audio, might want to just start a new track
-    }
 
     public void queue(AudioTrack track) {
         if (!player.startTrack(track, true)) {
             queue.offer(track);
         }
     }
+
+    public BlockingQueue<AudioTrack> getQueue() {
+        return queue;
+    }
+
+    public AudioPlayer getPlayer() {
+        return this.player;
+    }
+
 }

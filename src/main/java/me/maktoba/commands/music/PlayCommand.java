@@ -2,11 +2,15 @@ package me.maktoba.commands.music;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
-import me.maktoba.handlers.MusicHandler;
+import me.maktoba.listeners.MusicListener;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.managers.AudioManager;
+
 
 public class PlayCommand extends Command {
 
@@ -14,14 +18,16 @@ public class PlayCommand extends Command {
         super(bot);
         this.name = "play";
         this.description = "play song";
+        this.commandOptionData.add(new OptionData
+                (OptionType.STRING,
+                            "link",
+                        "Youtube link with desired audio",
+                         true));
     }
 
     public void execute(SlashCommandInteractionEvent event) {
         Guild guild = event.getGuild();
         Member member = event.getMember();
-
-        //PlayCommand   ->  in execute method creates instance of MusicHandler(adps handler)
-        MusicHandler music = bot.musicListener.getMusic(event, true);
 
         //PlayCommand   ->  connects to the VoiceChannel using getVoiceState().getChannel();
         AudioChannel myChannel = member.getVoiceState().getChannel();
@@ -29,6 +35,16 @@ public class PlayCommand extends Command {
         if (myChannel == null) {
             event.reply("You are not in a voice channel!").queue();
         }
+
+        String trackName = event.getOption("link").getAsString();
+
+        AudioManager manager = guild.getAudioManager();
+
+        manager.openAudioConnection(myChannel);
+
+        MusicListener music = MusicListener.get();
+        event.reply("Playing").queue();
+        music.addTrack(guild, trackName);
 
     }
 

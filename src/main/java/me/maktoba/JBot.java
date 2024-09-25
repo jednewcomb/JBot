@@ -20,11 +20,9 @@ public class JBot {
 
     private final Dotenv config;
     private final ShardManager shardManager;
-    public MusicListener musicListener;
 
     public JBot() throws LoginException {
         config = Dotenv.configure().load();
-        this.musicListener = new MusicListener();
 
         String token = config.get("TOKEN");
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
