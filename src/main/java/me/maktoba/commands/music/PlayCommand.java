@@ -11,6 +11,9 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.managers.AudioManager;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 
 public class PlayCommand extends Command {
 
@@ -37,6 +40,12 @@ public class PlayCommand extends Command {
         }
 
         String trackName = event.getOption("link").getAsString();
+
+        try {
+            new URI(trackName);
+        } catch(URISyntaxException e) {
+            trackName = "ytsearch:" + trackName;
+        }
 
         AudioManager manager = guild.getAudioManager();
 

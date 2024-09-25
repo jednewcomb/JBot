@@ -22,11 +22,13 @@ public class MusicListener extends ListenerAdapter {
     private final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
 
     //I believe we need this map in order to keep track of multiple music managers, as each guild
-    //can only use its own. Currently it'll just contain one.
+    //can only use its own. Currently, it'll just contain one.
     private final Map<Long, GuildMusicManager> guildMusicManagers = new HashMap<>();
 
     private MusicListener() {
-        AudioSourceManagers.registerRemoteSources(playerManager);
+        AudioSourceManagers.registerRemoteSources(playerManager, com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager.class);
+        YoutubeAudioSourceManager yt = new YoutubeAudioSourceManager();
+        playerManager.getSourceManagers().remove(yt);
         AudioSourceManagers.registerLocalSource(playerManager);
     }
 
