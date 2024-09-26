@@ -16,7 +16,11 @@ public class MessageReactionListener extends ListenerAdapter {
         String jumpLink = event.getJumpUrl();
 
         String message = user.getName() + " reacted to a message with " + emoji
+<<<<<<< HEAD
                 + " in the " + channelMention + " channel!";
+=======
+                                        + " in the " + channelMention + " channel!";
+>>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
 
         event.getGuild().getDefaultChannel().asStandardGuildMessageChannel().sendMessage(message).queue();
 

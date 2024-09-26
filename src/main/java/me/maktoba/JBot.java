@@ -5,6 +5,10 @@ import java.io.IOException;
 import me.maktoba.commands.CommandRegistry;
 
 import io.github.cdimascio.dotenv.Dotenv;
+<<<<<<< HEAD
+=======
+import me.maktoba.listeners.MusicListener;
+>>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -30,9 +34,15 @@ public class JBot {
         builder.setActivity(Activity.watching("YOU"));
 
         builder.enableIntents(GatewayIntent.GUILD_MEMBERS,
+<<<<<<< HEAD
                 GatewayIntent.GUILD_MESSAGES,
                 GatewayIntent.GUILD_PRESENCES,
                 GatewayIntent.GUILD_VOICE_STATES);
+=======
+                              GatewayIntent.GUILD_MESSAGES,
+                              GatewayIntent.GUILD_PRESENCES,
+                              GatewayIntent.GUILD_VOICE_STATES);
+>>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
 
         builder.addEventListeners(new CommandRegistry(this));
 

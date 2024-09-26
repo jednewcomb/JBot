@@ -22,9 +22,15 @@ public class PlayCommand extends Command {
         this.description = "play song";
         this.commandOptionData.add(new OptionData
                 (OptionType.STRING,
+<<<<<<< HEAD
                         "link",
                         "Youtube link with desired audio",
                         true));
+=======
+                            "link",
+                        "Youtube link with desired audio",
+                         true));
+>>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
     }
 
     public void execute(SlashCommandInteractionEvent event) {
@@ -56,4 +62,8 @@ public class PlayCommand extends Command {
 
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998

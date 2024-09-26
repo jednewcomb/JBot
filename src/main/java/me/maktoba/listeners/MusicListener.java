@@ -26,7 +26,13 @@ public class MusicListener extends ListenerAdapter {
     private final Map<Long, GuildMusicManager> guildMusicManagers = new HashMap<>();
 
     private MusicListener() {
+<<<<<<< HEAD
         AudioSourceManagers.registerRemoteSources(playerManager);
+=======
+        AudioSourceManagers.registerRemoteSources(playerManager, com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager.class);
+        YoutubeAudioSourceManager yt = new YoutubeAudioSourceManager();
+        playerManager.getSourceManagers().remove(yt);
+>>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
         AudioSourceManagers.registerLocalSource(playerManager);
     }
 
@@ -73,4 +79,12 @@ public class MusicListener extends ListenerAdapter {
             }
         });
     }
+<<<<<<< HEAD
 }
+=======
+}
+
+
+
+
+>>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
