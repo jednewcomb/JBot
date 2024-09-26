@@ -13,14 +13,17 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url "https://jitpack.io" }
+    maven {url "https://maven.lavalink.dev/releases"}
 }
 
 dependencies {
     implementation("net.dv8tion:JDA:5.1.1")
     implementation 'dev.arbjerg:lavaplayer:2.2.2'
     implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+    implementation("dev.lavalink.youtube:v2:1.8.2")
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
 }
 
 tasks.withType(JavaCompile) {

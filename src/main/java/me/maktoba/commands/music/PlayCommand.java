@@ -40,6 +40,7 @@ public class PlayCommand extends Command {
 
         String trackName = event.getOption("link").getAsString();
 
+        //i think this is useless right now?
         try {
             new URI(trackName);
         } catch(URISyntaxException e) {

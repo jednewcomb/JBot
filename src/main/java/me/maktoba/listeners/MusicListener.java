@@ -4,10 +4,10 @@ import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
-import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import dev.lavalink.youtube.YoutubeAudioSourceManager;
 import me.maktoba.handlers.GuildMusicManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -20,13 +20,18 @@ public class MusicListener extends ListenerAdapter {
     private static MusicListener INSTANCE;
 
     private final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
+    private final YoutubeAudioSourceManager ytSourceManager;
+
 
     //I believe we need this map in order to keep track of multiple music managers, as each guild
     //can only use its own. Currently, it'll just contain one.
     private final Map<Long, GuildMusicManager> guildMusicManagers = new HashMap<>();
 
     private MusicListener() {
-        AudioSourceManagers.registerRemoteSources(playerManager);
+        //I believe doing it this way has only registered the yt manager
+        //eventually we might want to register more of them that lavaplayer allows
+        this.ytSourceManager = new dev.lavalink.youtube.YoutubeAudioSourceManager();
+        playerManager.registerSourceManager(ytSourceManager);
         AudioSourceManagers.registerLocalSource(playerManager);
     }
 
