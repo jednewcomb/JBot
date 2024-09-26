@@ -5,7 +5,6 @@ import java.io.IOException;
 import me.maktoba.commands.CommandRegistry;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import me.maktoba.listeners.MusicListener;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
