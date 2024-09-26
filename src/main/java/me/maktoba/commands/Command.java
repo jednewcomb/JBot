@@ -29,8 +29,5 @@ public abstract class Command {
 
     public abstract void execute(SlashCommandInteractionEvent event);
 
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998

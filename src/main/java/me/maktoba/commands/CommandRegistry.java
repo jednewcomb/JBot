@@ -24,7 +24,7 @@ public class CommandRegistry extends ListenerAdapter {
         mapCommand(new PlayCommand(bot));
     }
 
-    private void mapCommand(Command ...commands) {
+    private void mapCommand(Command... commands) {
         for (Command cmd : commands) {
             commandMap.put(cmd.name, cmd);
             commandList.add(cmd);
@@ -46,7 +46,7 @@ public class CommandRegistry extends ListenerAdapter {
      *
      * @return - A list of CommandData to be used on guild start for registration.
      */
-    /*
+
     public static List<CommandData> unpackCommandData() {
         List<CommandData> commandData = new ArrayList<>();
         for (Command command : commandList) {
@@ -64,15 +64,10 @@ public class CommandRegistry extends ListenerAdapter {
     }
 
 
-
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         event.getGuild().updateCommands().addCommands(unpackCommandData()).queue();
     }
 
-     */
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998

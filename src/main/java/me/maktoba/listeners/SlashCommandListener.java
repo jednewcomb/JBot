@@ -21,7 +21,6 @@ public class SlashCommandListener extends ListenerAdapter {
         List<CommandData> commandData = new ArrayList<>();
 
         commandData.add(Commands.slash("reverse", "Reverses given text")
-<<<<<<< HEAD
                 .addOption(OptionType.STRING, "message", "message to reverse", true));
 
         commandData.add(Commands.slash("say", "Bot will say what you tell it to")
@@ -32,18 +31,6 @@ public class SlashCommandListener extends ListenerAdapter {
 
         commandData.add(Commands.slash("spoiler", "Covers message with potential spoilers")
                 .addOption(OptionType.STRING, "message", "message to hide", true));
-=======
-                   .addOption(OptionType.STRING, "message", "message to reverse", true));
-
-        commandData.add(Commands.slash("say", "Bot will say what you tell it to")
-                   .addOption(OptionType.STRING, "message", "message to say", true));
-
-        commandData.add(Commands.slash("sarcasm", "Every other character is uppercase")
-                   .addOption(OptionType.STRING, "message", "message to alter", true));
-
-        commandData.add(Commands.slash("spoiler", "Covers message with potential spoilers")
-                   .addOption(OptionType.STRING, "message", "message to hide", true));
->>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
 
 
         event.getGuild().updateCommands().addCommands(commandData).queue();
@@ -63,13 +50,8 @@ public class SlashCommandListener extends ListenerAdapter {
 
                 for (int i = 0; i < inputString.length(); i++) {
                     toReturn.append(i % 2 == 0
-<<<<<<< HEAD
                             ? inputString.charAt(i)
                             : Character.toUpperCase(inputString.charAt(i)));
-=======
-                                    ? inputString.charAt(i)
-                                    : Character.toUpperCase(inputString.charAt(i)));
->>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
                 }
 
                 event.reply(toReturn.toString()).queue();
