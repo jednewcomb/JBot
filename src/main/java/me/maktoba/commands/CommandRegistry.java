@@ -46,6 +46,7 @@ public class CommandRegistry extends ListenerAdapter {
      *
      * @return - A list of CommandData to be used on guild start for registration.
      */
+    /*
     public static List<CommandData> unpackCommandData() {
         List<CommandData> commandData = new ArrayList<>();
         for (Command command : commandList) {
@@ -62,8 +63,12 @@ public class CommandRegistry extends ListenerAdapter {
         return commandData;
     }
 
+
+
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         event.getGuild().updateCommands().addCommands(unpackCommandData()).queue();
     }
+
+     */
 }

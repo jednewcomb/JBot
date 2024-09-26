@@ -14,7 +14,6 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-
 public class PlayCommand extends Command {
 
     public PlayCommand(JBot bot) {
