@@ -15,11 +15,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Command Registry could be thought of as a "Command Manager".
+ * It uses a List and Map to register the commands we create by adding an Event Listener to our Shard builder. It makes
+ * adding commands and registering them much more simple, as the alternative would be to manually add each command's
+ * data via its own listener to the shard builder, which makes for more unsightly and confusing code.
+ */
 public class CommandRegistry extends ListenerAdapter {
 
     public static List<Command> commandList = new ArrayList<>();
     public static Map<String, Command> commandMap = new HashMap<>();
 
+    /**
+     * Sends each of our Commands to be Mapped to the List and Map for later retrieval.
+     * @param bot - Our original Bot.
+     */
     public CommandRegistry(JBot bot) {
         mapCommand(new PlayCommand(bot));
     }
@@ -31,12 +41,11 @@ public class CommandRegistry extends ListenerAdapter {
         }
     }
 
+    /**
+     * Once we have the name and description of our desired command, we can execute it.
+     * @param event - The SlashCommand event.
+     */
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-
-        //get command by name
-        //execute command
-        //might need to do more later based on permissions, intents and caches etc
-
         Command cmd = commandMap.get(event.getName());
         cmd.execute(event);
     }
@@ -63,11 +72,13 @@ public class CommandRegistry extends ListenerAdapter {
         return commandData;
     }
 
-
+    /**
+     * An Overridden method of the JDA that runs when the desired guild for the bot is finished setting up.
+     * @param event - The signal to our bot that the desired Guild(server) is set up.
+     */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         event.getGuild().updateCommands().addCommands(unpackCommandData()).queue();
     }
-
 
 }

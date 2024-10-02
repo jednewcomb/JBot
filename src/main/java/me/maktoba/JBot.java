@@ -17,7 +17,14 @@ import javax.security.auth.login.LoginException;
 
 public class JBot {
 
+    //Environmental Variable for privacy
     private final Dotenv config;
+
+    /**
+     * ShardManager is basically the builder which dictates
+     * what our bot does. It could be replaced by a JDA builder in
+     * older versions of JDA I believe.
+     */
     private final ShardManager shardManager;
 
     public JBot() throws LoginException {

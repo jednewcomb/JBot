@@ -11,20 +11,17 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
+/**
+ * PlayCommand adds music tracks to our queue. and then more words here later.
+ */
 public class PlayCommand extends Command {
 
     public PlayCommand(JBot bot) {
         super(bot);
         this.name = "play";
         this.description = "play song";
-        this.commandOptionData.add(new OptionData
-                (OptionType.STRING,
-                        "link",
-                        "Youtube link with desired audio",
-                        true));
+        this.commandOptionData.add
+                (new OptionData(OptionType.STRING, "link", "Youtube link with desired audio", true));
     }
 
     public void execute(SlashCommandInteractionEvent event) {
@@ -39,13 +36,6 @@ public class PlayCommand extends Command {
         }
 
         String trackName = event.getOption("link").getAsString();
-
-        //i think this is useless right now?
-        try {
-            new URI(trackName);
-        } catch(URISyntaxException e) {
-            trackName = "ytsearch:" + trackName;
-        }
 
         AudioManager manager = guild.getAudioManager();
 

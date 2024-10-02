@@ -9,6 +9,9 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The blueprint for Commands.
+ */
 public abstract class Command {
 
     public JBot bot;
@@ -17,7 +20,7 @@ public abstract class Command {
     public List<OptionData> optionData;
     public Permission botPermissions;
     public List<OptionData> commandOptionData;
-    public List<SubcommandData> subCommands;
+    public List<SubcommandData> subCommands;//?
 
 
 
