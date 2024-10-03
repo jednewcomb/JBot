@@ -78,5 +78,9 @@ public class MusicListener extends ListenerAdapter {
             }
         });
     }
+
+    public void pauseTrack(Guild guild) {
+
+    }
 }
 

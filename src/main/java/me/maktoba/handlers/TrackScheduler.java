@@ -36,6 +36,15 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
+    public void pause() {
+        player.setPaused(true);
+    }
+
+    @Override
+    public void onPlayerPause(AudioPlayer player) {
+        super.onPlayerPause(player);
+    }
+
     public BlockingQueue<AudioTrack> getQueue() {
         return queue;
     }

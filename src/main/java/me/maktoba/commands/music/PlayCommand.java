@@ -24,6 +24,18 @@ public class PlayCommand extends Command {
                 (new OptionData(OptionType.STRING, "link", "Youtube link with desired audio", true));
     }
 
+    /**
+     * Play Command gets the guild and member
+     * uses the member to get the voice state and channel of user who input command
+     * null checks if user is in a voice channel, prints message if not
+     * uses guild to get the audio manager
+     * manager opens the audio connection
+     * music listener created
+     * prints message
+     * adds the track
+     *
+     * @param event - The slash command (This command).
+     */
     public void execute(SlashCommandInteractionEvent event) {
         Guild guild = event.getGuild();
         Member member = event.getMember();
