@@ -55,9 +55,20 @@ public class PlayCommand extends Command {
 
         MusicListener music = MusicListener.get();
         event.reply("Playing").queue();
-        music.addTrack(guild, trackName);
+
+        if (music.getGuildMusicManager(guild).getTrackScheduler().isPaused()) {
+            music.getGuildMusicManager(guild).getTrackScheduler().unpause();
+        }
+        else {
+            music.addTrack(guild, trackName);
+        }
+
 
     }
 
+    public void checkPaused() {
+        //we should see if we can:
+            //add this.commandOptionData isRequired to true based on whether or not the current track is paused
+    }
 
 }

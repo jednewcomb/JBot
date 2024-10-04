@@ -18,10 +18,8 @@ import java.util.Map;
 public class MusicListener extends ListenerAdapter {
 
     private static MusicListener INSTANCE;
-
     private final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
     private final YoutubeAudioSourceManager ytSourceManager;
-
 
     //I believe we need this map in order to keep track of multiple music managers, as each guild
     //can only use its own. Currently, it'll just contain one.
@@ -77,10 +75,6 @@ public class MusicListener extends ListenerAdapter {
                 System.out.println(exception.getMessage() + " " + exception.severity);
             }
         });
-    }
-
-    public void pauseTrack(Guild guild) {
-
     }
 }
 

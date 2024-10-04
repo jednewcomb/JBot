@@ -40,6 +40,14 @@ public class TrackScheduler extends AudioEventAdapter {
         player.setPaused(true);
     }
 
+    public void unpause() {
+        player.setPaused(false);
+    }
+
+    public boolean isPaused() {
+        return player.isPaused();
+    }
+
     @Override
     public void onPlayerPause(AudioPlayer player) {
         super.onPlayerPause(player);
