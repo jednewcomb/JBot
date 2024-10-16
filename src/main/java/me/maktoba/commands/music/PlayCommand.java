@@ -21,7 +21,7 @@ public class PlayCommand extends Command {
         this.name = "play";
         this.description = "play song";
         this.commandOptionData.add
-                (new OptionData(OptionType.STRING, "link", "Youtube link with desired audio", true));
+                (new OptionData(OptionType.STRING, "link", "Youtube link with desired audio"));
     }
 
     /**
@@ -47,6 +47,7 @@ public class PlayCommand extends Command {
             event.reply("You are not in a voice channel!").queue();
         }
 
+        //we need to figure out how to be able to
         String trackName = event.getOption("link").getAsString();
 
         AudioManager manager = guild.getAudioManager();
@@ -63,12 +64,10 @@ public class PlayCommand extends Command {
             music.addTrack(guild, trackName);
         }
 
-
     }
 
     public void checkPaused() {
-        //we should see if we can:
-            //add this.commandOptionData isRequired to true based on whether or not the current track is paused
+        //im basically going to need
     }
 
 }

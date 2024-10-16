@@ -2,8 +2,6 @@ package me.maktoba.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.maktoba.JBot;
-import me.maktoba.commands.music.PlayCommand;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -72,11 +70,6 @@ public class SlashCommandListener extends ListenerAdapter {
 
                 event.reply(out).queue();
                 break;
-
-            case "play":
-
-            default:
-                event.reply("I can't handle that command right now :(").setEphemeral(true).queue();
         }
     }
 }

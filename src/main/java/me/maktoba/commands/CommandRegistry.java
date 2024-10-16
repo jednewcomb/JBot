@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Command Registry could be thought of as a "Command Manager".
- * It uses a List and Map to register the commands we create by adding an Event Listener to our Shard builder. It makes
- * adding commands and registering them much more simple, as the alternative would be to manually add each command's
- * data via its own listener to the shard builder, which makes for more unsightly and confusing code.
+ * The CommandRegistry class is responsible for managing and registering slash commands
+ * for the Discord bot using JDA. It maintains a list and map of commands, allowing for easy retrieval
+ * and execution based on user interactions. This class simplifies the process of adding commands to
+ * the bot and ensures that commands are registered on guild startup.
  */
 public class CommandRegistry extends ListenerAdapter {
 
@@ -29,6 +29,7 @@ public class CommandRegistry extends ListenerAdapter {
 
     /**
      * Sends each of our Commands to be Mapped to the List and Map for later retrieval.
+     *
      * @param bot - Our original Bot.
      */
     public CommandRegistry(JBot bot) {
@@ -36,6 +37,12 @@ public class CommandRegistry extends ListenerAdapter {
                    new PauseCommand(bot));
     }
 
+    /**
+     * Maps the given commands to the commandList and commandMap for easy retrieval
+     * and execution. The command's name is used as the key in the map.
+     *
+     * @param commands the commands to be mapped and registered
+     */
     private void mapCommand(Command... commands) {
         for (Command cmd : commands) {
             commandMap.put(cmd.name, cmd);
@@ -45,6 +52,7 @@ public class CommandRegistry extends ListenerAdapter {
 
     /**
      * Once we have the name and description of our desired command, we can execute it.
+     *
      * @param event - The SlashCommand event.
      */
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -53,11 +61,11 @@ public class CommandRegistry extends ListenerAdapter {
     }
 
     /**
-     * Generates CommandData for all commands on startup.
+     * Generates a list of CommandData for all registered commands. This data is used to register
+     * the commands with the Discord API when the bot starts or when a guild is ready.
      *
-     * @return - A list of CommandData to be used on guild start for registration.
+     * @return a list of CommandData for the commands, which will be registered on guild startup
      */
-
     public static List<CommandData> unpackCommandData() {
         List<CommandData> commandData = new ArrayList<>();
         for (Command command : commandList) {
@@ -75,8 +83,10 @@ public class CommandRegistry extends ListenerAdapter {
     }
 
     /**
-     * An Overridden method of the JDA that runs when the desired guild for the bot is finished setting up.
-     * @param event - The signal to our bot that the desired Guild(server) is set up.
+     * Called when a guild is ready to process commands. This method registers the bot commands
+     * with the guild once the guild has finished its setup.
+     *
+     * @param event the GuildReadyEvent signaling that the guild is ready for command registration
      */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {

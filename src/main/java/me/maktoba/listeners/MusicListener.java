@@ -15,24 +15,35 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The MusicListener class is responsible for managing the music playback for different guilds.
+ * It acts as a singleton INSTANCE and uses Lavaplayer to load and play tracks from various audio sources.
+ * As
+ *
+ * This class registers audio source managers (e.g., YouTube) and allows tracks to be queued and played
+ * in Discord voice channels.
+ */
 public class MusicListener extends ListenerAdapter {
 
     private static MusicListener INSTANCE;
     private final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
     private final YoutubeAudioSourceManager ytSourceManager;
-
-    //I believe we need this map in order to keep track of multiple music managers, as each guild
-    //can only use its own. Currently, it'll just contain one.
     private final Map<Long, GuildMusicManager> guildMusicManagers = new HashMap<>();
 
+    /**
+     * Registers the YouTube audio source manager and local audio sources with the AudioPlayerManager.
+     */
     private MusicListener() {
-        //I believe doing it this way has only registered the yt manager
-        //eventually we might want to register more of them that lavaplayer allows
         this.ytSourceManager = new dev.lavalink.youtube.YoutubeAudioSourceManager();
         playerManager.registerSourceManager(ytSourceManager);
         AudioSourceManagers.registerLocalSource(playerManager);
     }
 
+    /**
+     * Retrieves the instance of MusicListener
+     *
+     * @return the singleton instance of MusicListener
+     */
     public static MusicListener get() {
         if (INSTANCE == null) {
             INSTANCE = new MusicListener();
@@ -40,6 +51,13 @@ public class MusicListener extends ListenerAdapter {
         return INSTANCE;
     }
 
+    /**
+     * Retrieves the GuildMusicManager for the specified guild, creating it if it does not exist.
+     * Each guild has a unique GuildMusicManager that manages its music playback independently.
+     *
+     * @param guild the guild for which the music manager is requested
+     * @return the GuildMusicManager for the given guild
+     */
     public GuildMusicManager getGuildMusicManager(Guild guild) {
         return guildMusicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
             GuildMusicManager musicManager = new GuildMusicManager(playerManager, guild);
@@ -50,6 +68,13 @@ public class MusicListener extends ListenerAdapter {
         });
     }
 
+    /**
+     * Adds a track to the queue for the specified guild by its URL. If the track is part of a playlist,
+     * all tracks in the playlist are added to the queue.
+     *
+     * @param guild the guild where the track will be queued
+     * @param trackURL the URL of the track or playlist to be loaded
+     */
     public void addTrack(Guild guild, String trackURL) {
         GuildMusicManager guildMusicManager = getGuildMusicManager(guild);
         playerManager.loadItemOrdered(guildMusicManager, trackURL, new AudioLoadResultHandler() {
@@ -77,4 +102,3 @@ public class MusicListener extends ListenerAdapter {
         });
     }
 }
-
