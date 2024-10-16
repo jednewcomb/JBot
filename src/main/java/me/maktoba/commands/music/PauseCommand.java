@@ -15,7 +15,7 @@ public class PauseCommand extends Command {
     }
 
     /**
-     * So the pause works...now to the issue of getting it to start again from the paused position
+     * Pause the current playing song!
      * @param event - The command
      */
     @Override

@@ -2,6 +2,7 @@ package me.maktoba.commands.music;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
+import me.maktoba.handlers.TrackScheduler;
 import me.maktoba.listeners.MusicListener;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -40,34 +41,28 @@ public class PlayCommand extends Command {
         Guild guild = event.getGuild();
         Member member = event.getMember();
 
-        //PlayCommand   ->  connects to the VoiceChannel using getVoiceState().getChannel();
+        //PlayCommand  ->  connects to the VoiceChannel using getVoiceState().getChannel();
         AudioChannel myChannel = member.getVoiceState().getChannel();
 
         if (myChannel == null) {
             event.reply("You are not in a voice channel!").queue();
         }
 
-        //we need to figure out how to be able to
-        String trackName = event.getOption("link").getAsString();
-
         AudioManager manager = guild.getAudioManager();
 
         manager.openAudioConnection(myChannel);
-
         MusicListener music = MusicListener.get();
-        event.reply("Playing").queue();
+        TrackScheduler ts = music.getGuildMusicManager(guild).getTrackScheduler();
 
-        if (music.getGuildMusicManager(guild).getTrackScheduler().isPaused()) {
-            music.getGuildMusicManager(guild).getTrackScheduler().unpause();
+        if (ts.isPaused()) {
+            ts.unpause();
         }
         else {
+            String trackName = event.getOption("link").getAsString();
             music.addTrack(guild, trackName);
         }
 
-    }
-
-    public void checkPaused() {
-        //im basically going to need
+        event.reply("Playing").queue();
     }
 
 }

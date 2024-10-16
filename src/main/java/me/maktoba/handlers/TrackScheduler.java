@@ -8,7 +8,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-
 public class TrackScheduler extends AudioEventAdapter {
 
     private AudioPlayer player;
@@ -48,17 +47,24 @@ public class TrackScheduler extends AudioEventAdapter {
         return player.isPaused();
     }
 
-    @Override
-    public void onPlayerPause(AudioPlayer player) {
-        super.onPlayerPause(player);
-    }
-
     public BlockingQueue<AudioTrack> getQueue() {
         return queue;
     }
 
     public AudioPlayer getPlayer() {
         return this.player;
+    }
+
+    public void clear() {
+        printQueue();
+        queue.clear();
+        printQueue();
+    }
+
+    private void printQueue() {
+        for (AudioTrack track : queue) {
+            System.out.println(track.getIdentifier());
+        }
     }
 
 }
