@@ -15,7 +15,7 @@ public class PauseCommand extends Command {
     }
 
     /**
-     * Pause the current playing song!
+     * Pause the song currently playing.
      * @param event - The command
      */
     @Override
@@ -25,8 +25,7 @@ public class PauseCommand extends Command {
         MusicListener listener = MusicListener.get();
 
         listener.getGuildMusicManager(guild).getTrackScheduler().pause();
-        event.reply("paused track").queue();
-
+        event.reply("paused").queue();
     }
 
 }

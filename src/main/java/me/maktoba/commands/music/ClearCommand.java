@@ -8,10 +8,10 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public class ClearPlaylist extends Command {
+public class ClearCommand extends Command {
 
 
-    public ClearPlaylist(JBot bot) {
+    public ClearCommand(JBot bot) {
         super(bot);
         this.name = "clear";
         this.description = "clear the current queue";

@@ -41,7 +41,6 @@ public class PlayCommand extends Command {
         Guild guild = event.getGuild();
         Member member = event.getMember();
 
-        //PlayCommand  ->  connects to the VoiceChannel using getVoiceState().getChannel();
         AudioChannel myChannel = member.getVoiceState().getChannel();
 
         if (myChannel == null) {
@@ -56,13 +55,14 @@ public class PlayCommand extends Command {
 
         if (ts.isPaused()) {
             ts.unpause();
-        }
-        else {
+        } else {
             String trackName = event.getOption("link").getAsString();
             music.addTrack(guild, trackName);
         }
 
+
+
+
         event.reply("Playing").queue();
     }
-
 }

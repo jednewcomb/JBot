@@ -42,14 +42,6 @@ public class JBot {
                 GatewayIntent.GUILD_VOICE_STATES);
 
         builder.addEventListeners(new CommandRegistry(this));
-
-        //before we had this set to only online users
-        //so for some reason, when we were calling
-        //member.getAudioChannel in PlayCommand
-        //with that policy, it kept returning null.
-        //it returns null because we weren't cacheing
-        //users correctly I guess. This will need to be
-        //changed and addressed in the future
         builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 
         //cache all users on startup
