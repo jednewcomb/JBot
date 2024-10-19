@@ -8,6 +8,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import io.github.cdimascio.dotenv.Dotenv;
 import me.maktoba.handlers.GuildMusicManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -29,6 +30,7 @@ public class MusicListener extends ListenerAdapter {
     private final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
     private final YoutubeAudioSourceManager ytSourceManager;
     private final Map<Long, GuildMusicManager> guildMusicManagers = new HashMap<>();
+    private final Dotenv oAuthToken;
 
     /**
      * Registers the YouTube audio source manager and local audio sources with the AudioPlayerManager.
@@ -36,7 +38,16 @@ public class MusicListener extends ListenerAdapter {
     private MusicListener() {
         this.ytSourceManager = new dev.lavalink.youtube.YoutubeAudioSourceManager();
         playerManager.registerSourceManager(ytSourceManager);
+
+        oAuthToken = Dotenv.configure().load();
+
+        String ytToken = oAuthToken.get("YOUTUBETOKEN");
+
+
+        ytSourceManager.useOauth2(ytToken, true);
         AudioSourceManagers.registerLocalSource(playerManager);
+
+
     }
 
     /**

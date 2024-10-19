@@ -53,8 +53,16 @@ public class PlayCommand extends Command {
         MusicListener music = MusicListener.get();
         TrackScheduler ts = music.getGuildMusicManager(guild).getTrackScheduler();
 
-        String trackName = event.getOption("link").getAsString();
-        music.addTrack(guild, trackName);
+        if (ts.isPaused()) {
+            ts.unpause();
+        }
+        try {
+            String trackName = event.getOption("link").getAsString();
+            music.addTrack(guild, trackName);
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
+
 
         event.reply("Playing").queue();
     }

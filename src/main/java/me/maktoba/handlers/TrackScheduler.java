@@ -15,6 +15,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public TrackScheduler(AudioPlayer audioPlayer) {
         this.player = audioPlayer;
+        this.player.setVolume(100);
     }
 
     /**
@@ -36,13 +37,9 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void queue(AudioTrack track) {
-        /*
         if (!player.startTrack(track, true)) {
             queue.offer(track);
         }
-
-         */
-        System.out.println(queue.offer(track));
 
         for (AudioTrack aTrack : queue) {
             System.out.println(aTrack.getIdentifier());
