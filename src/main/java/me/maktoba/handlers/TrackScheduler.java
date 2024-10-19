@@ -15,7 +15,14 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public TrackScheduler(AudioPlayer audioPlayer) {
         this.player = audioPlayer;
-        this.player.setVolume(100);
+    }
+
+    public AudioPlayer getPlayer() {
+        return this.player;
+    }
+
+    public BlockingQueue<AudioTrack> getQueue() {
+        return queue;
     }
 
     /**
@@ -40,14 +47,10 @@ public class TrackScheduler extends AudioEventAdapter {
         if (!player.startTrack(track, true)) {
             queue.offer(track);
         }
-
-        for (AudioTrack aTrack : queue) {
-            System.out.println(aTrack.getIdentifier());
-        }
     }
 
     public void skip() {
-        player.stopTrack();
+        stopTrack();
         queue.poll();
     }
 
@@ -55,7 +58,7 @@ public class TrackScheduler extends AudioEventAdapter {
         player.setPaused(true);
     }
 
-    public void unpause() {
+    public void resume() {
         player.setPaused(false);
     }
 
@@ -63,17 +66,25 @@ public class TrackScheduler extends AudioEventAdapter {
         return player.isPaused();
     }
 
-    public BlockingQueue<AudioTrack> getQueue() {
-        return queue;
-    }
-
-    public AudioPlayer getPlayer() {
-        return this.player;
+    public void stopTrack() {
+        player.stopTrack();
     }
 
     public void clear() {
+        stopTrack();
         queue.clear();
     }
+
+    public void replay() {
+
+        queue.offer(player.getPlayingTrack().makeClone());
+    }
+
+
+
+
+
+
 
 
 }

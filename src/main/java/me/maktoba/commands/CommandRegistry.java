@@ -1,10 +1,7 @@
 package me.maktoba.commands;
 
 import me.maktoba.JBot;
-import me.maktoba.commands.music.ClearCommand;
-import me.maktoba.commands.music.PlayCommand;
-import me.maktoba.commands.music.PauseCommand;
-import me.maktoba.commands.music.SkipCommand;
+import me.maktoba.commands.music.*;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -38,7 +35,9 @@ public class CommandRegistry extends ListenerAdapter {
         mapCommand(new PlayCommand(bot),
                    new PauseCommand(bot),
                    new SkipCommand(bot),
-                   new ClearCommand(bot));
+                   new ClearCommand(bot),
+                   new StopCommand(bot),
+                   new ReplayCommand(bot));
     }
 
     /**

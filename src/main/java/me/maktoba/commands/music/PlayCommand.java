@@ -54,7 +54,7 @@ public class PlayCommand extends Command {
         TrackScheduler ts = music.getGuildMusicManager(guild).getTrackScheduler();
 
         if (ts.isPaused()) {
-            ts.unpause();
+            ts.resume();
         }
         try {
             String trackName = event.getOption("link").getAsString();
