@@ -92,7 +92,6 @@ public class MusicListener extends ListenerAdapter {
             @Override
             public void trackLoaded(AudioTrack track) {
                 guildMusicManager.getTrackScheduler().queue(track);
-                System.out.println("track loaded");
             }
 
             @Override

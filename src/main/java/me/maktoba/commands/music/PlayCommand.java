@@ -63,7 +63,6 @@ public class PlayCommand extends Command {
             System.out.println(e.getMessage());
         }
 
-
         event.reply("Playing").queue();
     }
 }

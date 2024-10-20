@@ -34,10 +34,11 @@ public class CommandRegistry extends ListenerAdapter {
     public CommandRegistry(JBot bot) {
         mapCommand(new PlayCommand(bot),
                    new PauseCommand(bot),
-                   new SkipCommand(bot),
-                   new ClearCommand(bot),
                    new StopCommand(bot),
-                   new ReplayCommand(bot));
+                   new SkipCommand(bot),
+                   new ReplayCommand(bot),
+                   new ClearCommand(bot),
+                   new NowPlayingCommand(bot));
     }
 
     /**
