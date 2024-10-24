@@ -41,7 +41,10 @@ public class CommandRegistry extends ListenerAdapter {
                    new ClearCommand(bot),
                    new NowPlayingCommand(bot),
 
-                   new SarcasmCommand(bot));
+                   new SarcasmCommand(bot),
+                   new ReverseCommand(bot),
+
+                   new HelpCommand(bot));
     }
 
     /**
