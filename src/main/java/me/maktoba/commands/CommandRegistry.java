@@ -1,6 +1,7 @@
 package me.maktoba.commands;
 
 import me.maktoba.JBot;
+import me.maktoba.commands.text.*;
 import me.maktoba.commands.music.*;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -38,7 +39,9 @@ public class CommandRegistry extends ListenerAdapter {
                    new SkipCommand(bot),
                    new ReplayCommand(bot),
                    new ClearCommand(bot),
-                   new NowPlayingCommand(bot));
+                   new NowPlayingCommand(bot),
+
+                   new SarcasmCommand(bot));
     }
 
     /**
@@ -88,7 +91,7 @@ public class CommandRegistry extends ListenerAdapter {
 
     /**
      * Called when a guild is ready to process commands. This method registers the bot commands
-     * with the guild once the guild has finished its setup.
+     * with the guild once the guild has set up.
      *
      * @param event the GuildReadyEvent signaling that the guild is ready for command registration
      */

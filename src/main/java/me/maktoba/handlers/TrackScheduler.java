@@ -76,7 +76,6 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void replay() {
-
         queue.offer(player.getPlayingTrack().makeClone());
     }
 
