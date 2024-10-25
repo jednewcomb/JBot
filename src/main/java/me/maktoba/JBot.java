@@ -15,7 +15,6 @@ import javax.security.auth.login.LoginException;
 
 public class JBot {
 
-    //Environmental Variable for privacy
     private final Dotenv config;
 
     /**
