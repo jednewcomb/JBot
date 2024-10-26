@@ -7,7 +7,6 @@ import me.maktoba.listeners.MusicListener;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-
 public class ReplayCommand extends Command {
 
     public ReplayCommand(JBot jbot) {

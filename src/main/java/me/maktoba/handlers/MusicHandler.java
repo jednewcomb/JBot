@@ -8,7 +8,6 @@ import java.nio.ByteBuffer;
 
 //You may only use one AudioSendHandler per Guild and not use the same instance on another Guild!
 public class MusicHandler implements AudioSendHandler {
-
     private final AudioPlayer audioPlayer;
     private final ByteBuffer buffer = ByteBuffer.allocate(1024);
     private final MutableAudioFrame frame = new MutableAudioFrame();
@@ -32,8 +31,4 @@ public class MusicHandler implements AudioSendHandler {
     public boolean isOpus() {
         return true;
     }
-
-
-
-
 }

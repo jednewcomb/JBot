@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
  * for poking fun at your friends or memeing silly quotes.
  */
 public class SarcasmCommand extends Command {
-
     public SarcasmCommand(JBot jbot) {
         super(jbot);
         this.name = "sarcasm";

@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 public class PauseCommand extends Command {
-
     public PauseCommand(JBot bot) {
         super(bot);
         this.name = "pause";
@@ -27,5 +26,4 @@ public class PauseCommand extends Command {
         listener.getGuildMusicManager(guild).getTrackScheduler().pause();
         event.reply("paused").queue();
     }
-
 }

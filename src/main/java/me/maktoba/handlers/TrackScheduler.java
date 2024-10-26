@@ -9,7 +9,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class TrackScheduler extends AudioEventAdapter {
-
     private AudioPlayer player;
     private BlockingQueue<AudioTrack> queue = new LinkedBlockingQueue<>();
 
@@ -78,12 +77,4 @@ public class TrackScheduler extends AudioEventAdapter {
     public void replay() {
         queue.offer(player.getPlayingTrack().makeClone());
     }
-
-
-
-
-
-
-
-
 }

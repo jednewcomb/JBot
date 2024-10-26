@@ -25,29 +25,27 @@ import java.util.Map;
  * in Discord voice channels.
  */
 public class MusicListener extends ListenerAdapter {
-
     private static MusicListener INSTANCE;
-    private final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
+    private final AudioPlayerManager playerManager;
     private final YoutubeAudioSourceManager ytSourceManager;
-    private final Map<Long, GuildMusicManager> guildMusicManagers = new HashMap<>();
+    private final Map<Long, GuildMusicManager> guildMusicManagers;
     private final Dotenv oAuthToken;
 
     /**
      * Registers the YouTube audio source manager and local audio sources with the AudioPlayerManager.
      */
     private MusicListener() {
-        this.ytSourceManager = new dev.lavalink.youtube.YoutubeAudioSourceManager();
+        playerManager = new DefaultAudioPlayerManager();
+        ytSourceManager = new dev.lavalink.youtube.YoutubeAudioSourceManager();
         playerManager.registerSourceManager(ytSourceManager);
 
+        guildMusicManagers = new HashMap<>();
+
         oAuthToken = Dotenv.configure().load();
-
         String ytToken = oAuthToken.get("YOUTUBETOKEN");
-
-
         ytSourceManager.useOauth2(ytToken, true);
+
         AudioSourceManagers.registerLocalSource(playerManager);
-
-
     }
 
     /**
@@ -99,7 +97,6 @@ public class MusicListener extends ListenerAdapter {
                 for (AudioTrack track : playlist.getTracks()) {
                     guildMusicManager.getTrackScheduler().queue(track);
                 }
-                System.out.println("playlist loaded");
             }
 
             @Override

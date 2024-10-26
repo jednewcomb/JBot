@@ -8,13 +8,11 @@ public class GuildListener extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
-
         String user = event.getUser().getName();
 
         String welcome = user + " has just joined " + event.getGuild().getName() + ". Welcome!";
 
         event.getGuild().getDefaultChannel().asTextChannel().sendMessage(welcome).queue();
-
     }
 
 

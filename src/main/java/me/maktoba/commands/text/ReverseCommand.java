@@ -7,8 +7,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 /**
- * Reverse just takes a user given string and reverses it, for the very niche
- *
+ * Reverse just takes a user given string and reverses it, kind of niche
  */
 public class ReverseCommand extends Command {
 

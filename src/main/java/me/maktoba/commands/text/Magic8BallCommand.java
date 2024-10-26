@@ -46,5 +46,4 @@ public class Magic8BallCommand extends Command {
         event.reply(event.getOption("question").getAsString()
                 + "\n" + this.responseList.get(new Random().nextInt(this.responseList.size()) + 1)).queue();
     }
-
 }

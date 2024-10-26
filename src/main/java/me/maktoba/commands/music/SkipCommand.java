@@ -23,6 +23,4 @@ public class SkipCommand extends Command {
 
         ts.skip();
     }
-
-
 }

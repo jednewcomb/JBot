@@ -13,7 +13,6 @@ import java.util.List;
  * The blueprint for Commands.
  */
 public abstract class Command {
-
     public JBot bot;
     public String name;
     public String description;
@@ -22,8 +21,6 @@ public abstract class Command {
     public List<OptionData> commandOptionData;
     public List<SubcommandData> subCommands;//?
 
-
-
     public Command(JBot bot) {
         this.bot = bot;
         this.commandOptionData = new ArrayList<>();
@@ -31,6 +28,4 @@ public abstract class Command {
     }
 
     public abstract void execute(SlashCommandInteractionEvent event);
-
-
 }

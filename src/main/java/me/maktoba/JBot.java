@@ -14,38 +14,29 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import javax.security.auth.login.LoginException;
 
 public class JBot {
-
     private final Dotenv config;
-
-    /**
-     * ShardManager is basically the builder which dictates
-     * what our bot does. It could be replaced by a JDA builder in
-     * older versions of JDA I believe.
-     */
     private final ShardManager shardManager;
 
     public JBot() throws LoginException {
         config = Dotenv.configure().load();
-
         String token = config.get("TOKEN");
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
 
-        builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.watching("YOU"));
-
         builder.enableIntents(GatewayIntent.GUILD_MEMBERS,
-                GatewayIntent.GUILD_MESSAGES,
-                GatewayIntent.GUILD_PRESENCES,
-                GatewayIntent.GUILD_VOICE_STATES);
-
-        builder.addEventListeners(new CommandRegistry(this));
-        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+                              GatewayIntent.GUILD_MESSAGES,
+                              GatewayIntent.GUILD_PRESENCES,
+                              GatewayIntent.GUILD_VOICE_STATES);
 
         //cache all users on startup
+        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
         builder.setChunkingFilter(ChunkingFilter.ALL);
 
-        shardManager = builder.build();
+        //add EventListeners to builder from registry
+        builder.addEventListeners(new CommandRegistry(this));
 
+        builder.setStatus(OnlineStatus.ONLINE);
+        builder.setActivity(Activity.watching("JBot"));
+        shardManager = builder.build();
     }
 
     public Dotenv getConfig() {
@@ -56,7 +47,7 @@ public class JBot {
         try {
             new JBot();
         } catch(Exception e) {
-            System.err.println("invalid token received");
+            System.err.println("invalid token received -> " + e.getMessage());
         }
     }
 }

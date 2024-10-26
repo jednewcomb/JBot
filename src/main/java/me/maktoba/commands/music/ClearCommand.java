@@ -9,8 +9,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 public class ClearCommand extends Command {
-
-
     public ClearCommand(JBot bot) {
         super(bot);
         this.name = "clear";
@@ -27,6 +25,4 @@ public class ClearCommand extends Command {
 
         ts.clear();
     }
-
-
 }
