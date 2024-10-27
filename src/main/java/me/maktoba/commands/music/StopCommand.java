@@ -13,6 +13,7 @@ public class StopCommand extends Command {
         super(jbot);
         this.name = "stop";
         this.description = "stops the current playing song and removes it from the queue";
+        this.type = "music";
     }
 
     @Override

@@ -17,6 +17,7 @@ public class NowPlayingCommand extends Command {
         super(jbot);
         this.name = "nowplaying";
         this.description = "Show info on currently playing song";
+        this.type = "music";
     }
 
     @Override

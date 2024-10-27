@@ -13,6 +13,7 @@ public class ReplayCommand extends Command {
         super(jbot);
         this.name = "replay";
         this.description = "replay the current playing song";
+        this.type = "music";
     }
 
     @Override

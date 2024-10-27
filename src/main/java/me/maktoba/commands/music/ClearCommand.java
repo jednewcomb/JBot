@@ -13,6 +13,7 @@ public class ClearCommand extends Command {
         super(bot);
         this.name = "clear";
         this.description = "clear the current queue";
+        this.type = "music";
     }
 
     @Override

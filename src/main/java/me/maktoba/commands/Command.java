@@ -16,10 +16,12 @@ public abstract class Command {
     public JBot bot;
     public String name;
     public String description;
+    public String type;
     public List<OptionData> optionData;
     public Permission botPermissions;
     public List<OptionData> commandOptionData;
-    public List<SubcommandData> subCommands;//?
+    public List<SubcommandData> subCommands;
+
 
     public Command(JBot bot) {
         this.bot = bot;
@@ -28,4 +30,5 @@ public abstract class Command {
     }
 
     public abstract void execute(SlashCommandInteractionEvent event);
+
 }

@@ -17,6 +17,7 @@ public class SarcasmCommand extends Command {
         super(jbot);
         this.name = "sarcasm";
         this.description = "capitalizes every other letter to portray sarcasm";
+        this.type = "text";
         this.commandOptionData.add(new OptionData(OptionType.STRING, "text", "text to be sarcasted", true));
     }
 

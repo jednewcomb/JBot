@@ -11,8 +11,8 @@ public class PauseCommand extends Command {
         super(bot);
         this.name = "pause";
         this.description = "pause song";
+        this.type = "music";
     }
-
     /**
      * Pause the song currently playing.
      * @param event - The command

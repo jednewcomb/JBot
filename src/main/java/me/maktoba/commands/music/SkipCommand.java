@@ -13,6 +13,7 @@ public class SkipCommand extends Command {
         super(bot);
         this.name = "skip";
         this.description = "skip to the next song";
+        this.type = "music";
     }
 
     @Override

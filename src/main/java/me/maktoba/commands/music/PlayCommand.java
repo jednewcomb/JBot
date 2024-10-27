@@ -18,9 +18,9 @@ public class PlayCommand extends Command {
         super(bot);
         this.name = "play";
         this.description = "play song";
+        this.type = "music";
         this.commandOptionData.add
                 (new OptionData(OptionType.STRING, "link", "Youtube link with desired audio"));
-
     }
 
     /**

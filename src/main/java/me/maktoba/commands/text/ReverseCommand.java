@@ -15,8 +15,10 @@ public class ReverseCommand extends Command {
         super(jbot);
         this.name = "reverse";
         this.description = "reverse the given text";
+        this.type = "text";
         //maybe I want this to not require text and if the given text is null I just ping the user?
         this.commandOptionData.add(new OptionData(OptionType.STRING, "text", "text to be reversed", true));
+
     }
 
     /**
