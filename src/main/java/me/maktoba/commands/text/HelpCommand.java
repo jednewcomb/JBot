@@ -16,20 +16,19 @@ public class HelpCommand extends Command {
         this.description = "display information on JBot commands";
         this.type = "text";
         this.commandOptionData.add(new OptionData
-                (OptionType.STRING, "choice", "the type of command to see info for", true)
+                (OptionType.STRING, "type", "the type of command to see info for", true)
                 .addChoice("text", "text")
                 .addChoice("music", "music"));
     }
-
 
     /**
      * @param event
      */
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        String choice = event.getOption("choice").getAsString();
+        String choice = event.getOption("type").getAsString();
+        choice = choice.substring(0, 1).toUpperCase() + choice.substring(1);
 
-        //this is so ugly I've got to find a better way. Probably like pop up list window or something
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle(choice + " Commands");
 
