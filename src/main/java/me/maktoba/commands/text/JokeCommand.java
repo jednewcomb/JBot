@@ -14,10 +14,12 @@ public class JokeCommand extends Command {
         this.type = "text";
     }
 
+    /**
+     * Wow these jokes are kinda nuts
+     * @param event
+     */
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.reply(Jokes4J.getJokeString()).queue();
     }
-
-
 }

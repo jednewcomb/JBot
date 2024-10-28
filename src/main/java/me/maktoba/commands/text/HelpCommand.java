@@ -33,7 +33,7 @@ public class HelpCommand extends Command {
         embed.setTitle(choice + " Commands");
 
         for (Command cmd : CommandRegistry.commandList) {
-            if (cmd.type.equals(choice)) {
+            if (cmd.type.equals(choice.toLowerCase())) {
                 embed.addField("/" + cmd.name, cmd.description, false);
             }
         }

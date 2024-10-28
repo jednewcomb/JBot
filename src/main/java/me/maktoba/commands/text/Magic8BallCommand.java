@@ -19,7 +19,11 @@ public class Magic8BallCommand extends Command {
         this.name = "magic8ball";
         this.description = "Ask a question to the mighty magic 8 ball!";
         this.type = "text";
-        this.commandOptionData.add(new OptionData(OptionType.STRING, "question", "question you'd like an answer to", true));
+        this.commandOptionData.add(new OptionData(OptionType.STRING,
+                                                 "question",
+                                                 "yes or no question you'd like an answer to",
+                                                  true));
+
         this.responseList = Arrays.asList("It is certain",
                                           "It is decidedly so",
                                           "Without a doubt",

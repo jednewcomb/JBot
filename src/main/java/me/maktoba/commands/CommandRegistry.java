@@ -1,6 +1,8 @@
 package me.maktoba.commands;
 
 import me.maktoba.JBot;
+import me.maktoba.commands.moderation.BanCommand;
+import me.maktoba.commands.moderation.UnbanCommand;
 import me.maktoba.commands.text.*;
 import me.maktoba.commands.music.*;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
@@ -45,8 +47,10 @@ public class CommandRegistry extends ListenerAdapter {
                    new ReverseCommand(bot),
                    new Magic8BallCommand(bot),
                    new JokeCommand(bot),
+                   new HelpCommand(bot),
 
-                   new HelpCommand(bot));
+                   new BanCommand(bot),
+                   new UnbanCommand(bot));
     }
 
     /**
