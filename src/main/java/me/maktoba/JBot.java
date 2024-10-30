@@ -25,7 +25,8 @@ public class JBot {
         builder.enableIntents(GatewayIntent.GUILD_MEMBERS,
                               GatewayIntent.GUILD_MESSAGES,
                               GatewayIntent.GUILD_PRESENCES,
-                              GatewayIntent.GUILD_VOICE_STATES);
+                              GatewayIntent.GUILD_VOICE_STATES,
+                              GatewayIntent.GUILD_MODERATION);
 
         //cache all users on startup
         builder.setMemberCachePolicy(MemberCachePolicy.ALL);

@@ -2,6 +2,8 @@ package me.maktoba.commands.moderation;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -24,16 +26,22 @@ public class BanCommand extends Command {
                 .addChoice("inappropriate conduct", "inappropriate")
                 .addChoice("trolling", "trolling")
                 .addChoice("doxxing", "doxxing"));
+        this.botPermissions = Permission.BAN_MEMBERS;
     }
 
     //would be cool if we could get some funny photo to put in channel the command was used
     //like "bye felicia" or something
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        Member toBan = event.getOption("user").getAsMember();
+        //I think we need to check for permissions
 
-        toBan.ban(7, TimeUnit.DAYS);
+        Member member = event.getMember();
+        Guild guild = event.getGuild();
 
-        event.reply("User" + toBan + "was banned from " + event.getGuild().getName());
+        if (member.getPermissions().contains(Permission.BAN_MEMBERS) && botPermissions == Permission.BAN_MEMBERS) {
+
+            guild.ban(event.getOption("user").getAsUser(), 7, TimeUnit.DAYS).queue();
+            event.reply("banned").queue();
+        }
     }
 }
