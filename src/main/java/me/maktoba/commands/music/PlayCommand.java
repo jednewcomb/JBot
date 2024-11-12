@@ -53,7 +53,7 @@ public class PlayCommand extends Command {
 
         try {
             String trackName = event.getOption("link").getAsString();
-            music.addTrack(event.getGuild(), trackName);
+            music.loadTrack(event.getGuild(), trackName);
         } catch (NullPointerException e) {
             System.out.println(e.getMessage());
         }

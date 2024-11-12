@@ -62,3 +62,6 @@ build/
 
 ### Environment Files ###
 .env
+
+### Todo list ###
+todo.txt

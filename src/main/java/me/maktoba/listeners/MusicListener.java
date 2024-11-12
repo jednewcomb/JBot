@@ -84,7 +84,7 @@ public class MusicListener extends ListenerAdapter {
      * @param guild the guild where the track will be queued
      * @param trackURL the URL of the track or playlist to be loaded
      */
-    public void addTrack(Guild guild, String trackURL) {
+    public void loadTrack(Guild guild, String trackURL) {
         GuildMusicManager guildMusicManager = getGuildMusicManager(guild);
         playerManager.loadItemOrdered(guildMusicManager, trackURL, new AudioLoadResultHandler() {
             @Override
@@ -110,4 +110,6 @@ public class MusicListener extends ListenerAdapter {
             }
         });
     }
+
+
 }

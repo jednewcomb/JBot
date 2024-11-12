@@ -14,8 +14,7 @@ public class MusicHandler implements AudioSendHandler {
 
     public MusicHandler(AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
-        this.frame
-                .setBuffer(buffer);
+        this.frame.setBuffer(buffer);
     }
 
     @Override

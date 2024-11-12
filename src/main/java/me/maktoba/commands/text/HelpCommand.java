@@ -15,8 +15,8 @@ public class HelpCommand extends Command {
         this.name = "help";
         this.description = "display information on JBot commands";
         this.type = "text";
-        this.commandOptionData.add(new OptionData
-                (OptionType.STRING, "type", "the type of command to see info for", true)
+        this.commandOptionData
+                .add(new OptionData(OptionType.STRING, "type", "the type of command to see info for", true)
                 .addChoice("text", "text")
                 .addChoice("music", "music"));
     }
