@@ -12,6 +12,7 @@ public class PingCommand extends Command {
         this.description = "Responds with \"Pong!\" and displays the bot's latency.";
     }
 
+    @Override
     public void execute(SlashCommandInteractionEvent event) {
         long time = event.getJDA().getGatewayPing();
         event.replyFormat("Pong! %d ms", time).queue();
