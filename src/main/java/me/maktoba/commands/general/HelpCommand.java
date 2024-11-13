@@ -1,4 +1,4 @@
-package me.maktoba.commands.text;
+package me.maktoba.commands.general;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
