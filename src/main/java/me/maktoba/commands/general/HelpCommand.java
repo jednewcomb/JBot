@@ -17,8 +17,10 @@ public class HelpCommand extends Command {
         this.type = "text";
         this.commandOptionData
                 .add(new OptionData(OptionType.STRING, "type", "the type of command to see info for", true)
-                .addChoice("text", "text")
-                .addChoice("music", "music"));
+                .addChoice("general", "general")
+                .addChoice("music", "music")
+                .addChoice("moderation", "moderation")
+                .addChoice("text", "text"));
     }
 
     /**
