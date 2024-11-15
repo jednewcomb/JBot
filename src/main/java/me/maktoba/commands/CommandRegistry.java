@@ -3,6 +3,7 @@ package me.maktoba.commands;
 import me.maktoba.JBot;
 import me.maktoba.commands.general.HelpCommand;
 import me.maktoba.commands.general.PingCommand;
+import me.maktoba.commands.general.ServerInfoCommand;
 import me.maktoba.commands.general.UserInfoCommand;
 import me.maktoba.commands.moderation.BanCommand;
 import me.maktoba.commands.text.*;
@@ -53,6 +54,7 @@ public class CommandRegistry extends ListenerAdapter {
                    new HelpCommand(bot),
                    new PingCommand(bot),
                    new UserInfoCommand(bot),
+                   new ServerInfoCommand(bot),
 
                    new BanCommand(bot));
     }
