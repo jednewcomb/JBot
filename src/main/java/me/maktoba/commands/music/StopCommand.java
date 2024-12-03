@@ -24,5 +24,6 @@ public class StopCommand extends Command {
         TrackScheduler ts = music.getGuildMusicManager(guild).getTrackScheduler();
 
         ts.stopTrack();
+        event.reply("track stopped").queue();
     }
 }

@@ -23,9 +23,9 @@ import java.util.Map;
 
 /**
  * The CommandRegistry class is responsible for managing and registering slash commands
- * for the Discord bot using JDA. It maintains a list and map of commands, allowing for easy retrieval
- * and execution based on user interactions. This class simplifies the process of adding commands to
- * the bot and ensures that commands are registered on guild startup.
+ * for the bot. It maintains a list and map of commands, allowing for easy retrieval
+ * and execution based on user interactions. This class simplifies the process of adding
+ * commands to the bot and ensures that commands are registered on guild startup.
  */
 public class CommandRegistry extends ListenerAdapter {
 
@@ -114,5 +114,5 @@ public class CommandRegistry extends ListenerAdapter {
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         event.getGuild().updateCommands().addCommands(unpackCommandData()).queue();
     }
-
+    
 }

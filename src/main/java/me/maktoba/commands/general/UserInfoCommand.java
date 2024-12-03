@@ -28,8 +28,6 @@ public class UserInfoCommand extends Command {
 
         //A user should be able to display their own info, if their curious? mayhaps?
 
-        //Will want to check if guild even has the person. If not, jsut display "not found" ro something
-
         Guild guild = event.getGuild();
 
         //User and Member both have different methods associated with them. So I guess we just use both?
