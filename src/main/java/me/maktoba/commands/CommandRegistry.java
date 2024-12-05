@@ -6,6 +6,7 @@ import me.maktoba.commands.general.PingCommand;
 import me.maktoba.commands.general.ServerInfoCommand;
 import me.maktoba.commands.general.UserInfoCommand;
 import me.maktoba.commands.moderation.BanCommand;
+import me.maktoba.commands.moderation.CreateTextChannelCommand;
 import me.maktoba.commands.text.*;
 import me.maktoba.commands.music.*;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
@@ -56,7 +57,8 @@ public class CommandRegistry extends ListenerAdapter {
                    new UserInfoCommand(bot),
                    new ServerInfoCommand(bot),
 
-                   new BanCommand(bot));
+                   new BanCommand(bot),
+                   new CreateTextChannelCommand(bot));
     }
 
     /**
