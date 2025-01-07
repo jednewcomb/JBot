@@ -7,11 +7,11 @@ import me.maktoba.commands.general.ServerInfoCommand;
 import me.maktoba.commands.general.UserInfoCommand;
 import me.maktoba.commands.moderation.BanCommand;
 import me.maktoba.commands.moderation.CreateTextChannelCommand;
+import me.maktoba.commands.moderation.UnbanCommand;
 import me.maktoba.commands.text.*;
 import me.maktoba.commands.music.*;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -61,6 +61,7 @@ public class CommandRegistry extends ListenerAdapter {
                    new ServerInfoCommand(bot),
 
                    new BanCommand(bot),
+                   new UnbanCommand(bot),
                    new CreateTextChannelCommand(bot));
     }
 

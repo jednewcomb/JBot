@@ -3,6 +3,7 @@ package me.maktoba;
 import java.io.IOException;
 import me.maktoba.commands.CommandRegistry;
 import io.github.cdimascio.dotenv.Dotenv;
+import me.maktoba.listeners.GuildListener;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -33,7 +34,7 @@ public class JBot {
         builder.setChunkingFilter(ChunkingFilter.ALL);
 
         //add EventListeners to builder from registry
-        builder.addEventListeners(new CommandRegistry(this));
+        builder.addEventListeners(new CommandRegistry(this), new GuildListener());
 
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.watching("JBot"));

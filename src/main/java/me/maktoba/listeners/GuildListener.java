@@ -14,6 +14,4 @@ public class GuildListener extends ListenerAdapter {
 
         event.getGuild().getDefaultChannel().asTextChannel().sendMessage(welcome).queue();
     }
-
-
 }
