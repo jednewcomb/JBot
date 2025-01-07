@@ -9,6 +9,9 @@ import me.maktoba.commands.moderation.BanCommand;
 import me.maktoba.commands.moderation.CreateTextChannelCommand;
 import me.maktoba.commands.text.*;
 import me.maktoba.commands.music.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -32,6 +35,7 @@ public class CommandRegistry extends ListenerAdapter {
 
     public static List<Command> commandList = new ArrayList<>();
     public static Map<String, Command> commandMap = new HashMap<>();
+    private JBot bot;
 
     /**
      * Sends each of our Commands to be Mapped to the List and Map for later retrieval.
@@ -59,6 +63,7 @@ public class CommandRegistry extends ListenerAdapter {
 
                    new BanCommand(bot),
                    new CreateTextChannelCommand(bot));
+        this.bot = bot;
     }
 
     /**
@@ -75,12 +80,27 @@ public class CommandRegistry extends ListenerAdapter {
     }
 
     /**
-     * Once we have the name and description of our desired command, we can execute it.
+     * Once we have the name and description of our desired command, we can execute it,
+     * provided that the bot and member have the correct permissions (which is usually
+     * dictated by their respective Roles in the guild)
      *
      * @param event - The SlashCommand event.
      */
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         Command cmd = commandMap.get(event.getName());
+
+        //check that bot has correct permissions to carry out command
+        Guild guild = event.getGuild();
+        if (!guild.getBotRole().hasPermission(cmd.requiredPermission)) {//i'm not fully sure this will work? what if a guild has more than one bot? (maybe ID is better?)
+            event.reply("I do not have the necessary permissions to use that command").queue();
+        }
+
+        //check that member has correct permissions/role
+        Member member = event.getMember();
+        if (!member.hasPermission(cmd.requiredPermission)) {
+            event.reply("You lack the necessary permissions to use that command").queue();
+        }
+
         cmd.execute(event);
     }
 
