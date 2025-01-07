@@ -35,7 +35,6 @@ public class CommandRegistry extends ListenerAdapter {
 
     public static List<Command> commandList = new ArrayList<>();
     public static Map<String, Command> commandMap = new HashMap<>();
-    private JBot bot;
 
     /**
      * Sends each of our Commands to be Mapped to the List and Map for later retrieval.
@@ -63,7 +62,6 @@ public class CommandRegistry extends ListenerAdapter {
 
                    new BanCommand(bot),
                    new CreateTextChannelCommand(bot));
-        this.bot = bot;
     }
 
     /**
