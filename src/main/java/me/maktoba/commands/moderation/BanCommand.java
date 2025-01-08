@@ -22,28 +22,29 @@ public class BanCommand extends Command {
         this.requiredPermission = Permission.BAN_MEMBERS;
         this.commandOptionData.add(new OptionData(OptionType.USER, "user", "user to ban", true));
         this.commandOptionData.add(new OptionData(OptionType.STRING, "reason", "reason to ban user", true)
-                .addChoice("hate-speech", "hate-speech")
-                .addChoice("spam", "spam")
-                .addChoice("harassment", "harassment")
-                .addChoice("trolling", "trolling")
-                .addChoice("doxxing", "doxxing")
-                .addChoice("other inappropriate conduct", "inappropriate"));
+                              .addChoice("hate-speech", "hate-speech")
+                              .addChoice("spam", "spam")
+                              .addChoice("harassment", "harassment")
+                              .addChoice("trolling", "trolling")
+                              .addChoice("doxxing", "doxxing")
+                              .addChoice("other inappropriate conduct", "inappropriate"));
     }
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        User target = Objects.requireNonNull(event.getOption("user")).getAsUser();
+        User targetUser = Objects.requireNonNull(event.getOption("user")).getAsUser();
 
         // check that command user isn't banning themselves
         Member member = event.getMember();
-        if (Objects.requireNonNull(member).getUser() == target) {
+        if (Objects.requireNonNull(member).getUser() == targetUser) {
             event.reply("You can't ban yourself, even if you really want to.").queue();
             return;
         }
 
-        // check that ban target is in guild -> this might need work
-        if (!Objects.requireNonNull(event.getGuild()).getMembers().contains(target)) {
-            event.reply("User not found in server").queue();
+        // check that ban target is in guild
+        Member targetMember = Objects.requireNonNull(event.getOption("user")).getAsMember();
+        if (!Objects.requireNonNull(event.getGuild()).getMembers().contains(targetMember)) {
+            event.reply("User not found in server.").queue();
             return;
         }
 
@@ -53,15 +54,16 @@ public class BanCommand extends Command {
         //moderationHandler would be a good class for keeping track of bans.
 
         String reason = Objects.requireNonNull(event.getOption("reason")).getAsString();
-        String content = "You have been banned due to inappropriate conduct. Reason: " + reason;
+        String content = "You have been banned from " + event.getGuild().getName()
+                       + " due to inappropriate conduct. Reason: " + reason;
 
-        //this is working sometimes? I think it might have something to do with how cacheing is being done
-        target.openPrivateChannel()
-              .flatMap(channel -> channel.sendMessage(content))
-              .queue(/*success vs failure code could go here?*/);
+        // Try to send a user a private message upon ban notifying them.
+        targetUser.openPrivateChannel()
+                  .flatMap(channel -> channel.sendMessage(content))
+                  .queue(/*success vs failure lambda code could go here?*/);
 
-        Objects.requireNonNull(event.getGuild()).ban(target, numDays, TimeUnit.DAYS).queue();
-        event.reply("User " + target.getGlobalName() + " was banned").queue();
+        Objects.requireNonNull(event.getGuild()).ban(targetUser, numDays, TimeUnit.DAYS).queue();
+        event.reply("User " + targetUser.getGlobalName() + " was banned").queue();
         // A bot can grant roles to other users that are of a lower position than its own highest role.
         // A bot can edit roles of a lower position than its highest role, but it can only grant permissions it has to those roles.
         // A bot can only sort roles lower than its highest role.

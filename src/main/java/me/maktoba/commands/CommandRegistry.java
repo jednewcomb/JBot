@@ -20,10 +20,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The CommandRegistry class is responsible for managing and registering slash commands
@@ -88,16 +85,20 @@ public class CommandRegistry extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         Command cmd = commandMap.get(event.getName());
 
+        //maybe add some more null checks
+
         //check that bot has correct permissions to carry out command
         Guild guild = event.getGuild();
-        if (!guild.getBotRole().hasPermission(cmd.requiredPermission)) {//i'm not fully sure this will work? what if a guild has more than one bot? (maybe ID is better?)
+        if (!Objects.requireNonNull(guild).getBotRole().hasPermission(cmd.requiredPermission)) {
             event.reply("I do not have the necessary permissions to use that command").queue();
+            return;
         }
 
         //check that member has correct permissions/role
         Member member = event.getMember();
-        if (!member.hasPermission(cmd.requiredPermission)) {
+        if (!Objects.requireNonNull(member).hasPermission(cmd.requiredPermission)) {
             event.reply("You lack the necessary permissions to use that command").queue();
+            return;
         }
 
         cmd.execute(event);
