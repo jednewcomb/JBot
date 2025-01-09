@@ -6,7 +6,7 @@ import me.maktoba.commands.general.PingCommand;
 import me.maktoba.commands.general.ServerInfoCommand;
 import me.maktoba.commands.general.UserInfoCommand;
 import me.maktoba.commands.moderation.BanCommand;
-import me.maktoba.commands.moderation.CreateTextChannelCommand;
+import me.maktoba.commands.moderation.CreateChannelCommand;
 import me.maktoba.commands.moderation.UnbanCommand;
 import me.maktoba.commands.text.*;
 import me.maktoba.commands.music.*;
@@ -59,7 +59,7 @@ public class CommandRegistry extends ListenerAdapter {
 
                    new BanCommand(bot),
                    new UnbanCommand(bot),
-                   new CreateTextChannelCommand(bot));
+                   new CreateChannelCommand(bot));
     }
 
     /**
@@ -90,16 +90,17 @@ public class CommandRegistry extends ListenerAdapter {
         //check that bot has correct permissions to carry out command
         Guild guild = event.getGuild();
         if (!Objects.requireNonNull(guild).getBotRole().hasPermission(cmd.requiredPermission)) {
-            event.reply("I do not have the necessary permissions to use that command").queue();
+            event.reply("I do not have the necessary permissions to use that command").setEphemeral(true).queue();
             return;
         }
 
         //check that member has correct permissions/role
         Member member = event.getMember();
         if (!Objects.requireNonNull(member).hasPermission(cmd.requiredPermission)) {
-            event.reply("You lack the necessary permissions to use that command").queue();
+            event.reply("You lack the necessary permissions to use that command").setEphemeral(true).queue();
             return;
         }
+
 
         cmd.execute(event);
     }
