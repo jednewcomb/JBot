@@ -32,6 +32,11 @@ public class BanCommand extends Command {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
+
+        //THIS WHOLE THING MIGHT NOT HAVE BEEN WORKING WITH CACHE BECAUSE
+        //I DIDNT TEST IF JEDCODE WAS ONLINE OR NOT
+
+
         User targetUser = Objects.requireNonNull(event.getOption("user")).getAsUser();
 
         // check that command user isn't banning themselves
