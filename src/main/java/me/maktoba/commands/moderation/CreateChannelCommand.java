@@ -7,9 +7,11 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.attribute.ICategorizableChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -32,23 +34,9 @@ public class CreateChannelCommand extends Command {
                 .setChannelTypes(ChannelType.CATEGORY));
 
     }
-    //channelName, always will be there, user input.
 
-    //then we have channelType, also always will be there
     // For types, we have:
     // TEXT, VOICE, FORUM?, MEDIA?, NEWS, RULES, STAGE
-
-    //Channel Category, is optional. So we will have to cover when its there and when its not.
-
-    //When we have a channel category, that's where the new channel is going
-
-    //When we don't have a channel category, it goes into the default category(no named)
-
-
-    //The structure might be better if we have it like
-
-    // handleText, handleVoice, handleForum, handleAnnouncement, handleRules, handleStage
-
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         //TODO: Once text and voice channels are taken care off, consider adding the others too
@@ -66,13 +54,11 @@ public class CreateChannelCommand extends Command {
             //what channelType? - maybe getting the channel type should be its own function?
             if (desiredChannelType.equals("TEXT")) {
                 handleText(guild, event, desiredChannelName);
-            }
-            else if (desiredChannelType.equals("CATEGORY")) {
+            } else if (desiredChannelType.equals("CATEGORY")) {
                 handleCategory(guild, event, desiredChannelName);
             }
 
-        }
-        else {
+        } else {
             Channel ch = event.getOption("category").getAsChannel();
             Category category = event.getOption("category").getAsChannel().asCategory();
 
@@ -82,7 +68,6 @@ public class CreateChannelCommand extends Command {
         }
     }
 
-    //we know its a category if we got here
     public void handleCategory(Guild guild, SlashCommandInteractionEvent event, String channelName) {
         if (nameExists(guild, channelName, null)) {
             event.reply("There is already a category with that name.").queue();
@@ -90,7 +75,7 @@ public class CreateChannelCommand extends Command {
         }
 
         guild.createCategory(channelName).queue();
-        event.reply(channelName + " category created");
+        event.reply(channelName + " category created").queue();
     }
 
     public void handleText(Guild guild, SlashCommandInteractionEvent event, String channelName) {
@@ -99,43 +84,52 @@ public class CreateChannelCommand extends Command {
             return;
         }
 
-        guild.createTextChannel("general").queue();
+        guild.createTextChannel(channelName).queue();
         event.reply(channelName + " created in the default category.").queue();
     }
 
     public void handleText(Guild guild, SlashCommandInteractionEvent event, String channelName, Category category) {
-        //YOU LEFT OFF HERE
+        if (nameExists(guild, channelName, null)) {
+            event.reply("There is already a channel with that name in that category.").queue();
+            return;
+        }
+
+        guild.createTextChannel(channelName, category).queue();
+        event.reply(channelName + " created in the ___ category.").queue();
     }
 
     public boolean nameExists(Guild guild, String newChannelName, String category) {
+        for (Channel ch : guild.getChannels()) {
 
-        if (category == null) {
-            for (Channel ch : guild.getChannels()) {
+            if (category == null) {
+
                 if (ch.getType() == ChannelType.CATEGORY) {
                     return false;
-
                 }
-                if (ch.getName().toLowerCase().equals(newChannelName.toLowerCase())) {
+
+                if (ch.getName().equalsIgnoreCase(newChannelName)) {
                     return true;
                 }
-            }
-        }
-        else {
-            for (Channel ch : guild.getChannels()) {
-                //if its a category, peep just the categories
+
+            } else {
+
                 if (ch.getType() == ChannelType.CATEGORY) {
+
                     for (Category cg : guild.getCategories()) {
-                        if (cg.getName().equals(newChannelName)) {
+                        if (cg.getName().equalsIgnoreCase(newChannelName)) {
                             return true;
                         }
                     }
                 }
-                if (ch.getName().toLowerCase().equals(newChannelName.toLowerCase())) {
+                if (ch.getName().equalsIgnoreCase(newChannelName)) {
                     return true;
                 }
             }
+
         }
+
         return false;
+
     }
 
 }
