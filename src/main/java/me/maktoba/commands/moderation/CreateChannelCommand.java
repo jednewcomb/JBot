@@ -34,12 +34,6 @@ public class CreateChannelCommand extends Command {
 
     }
 
-    //TODO: Functions for:
-    //TODO:  - toStringDefault()
-    //TODO:  - toStringCategory()
-    //TODO:  - checkCommunity()
-    //TODO:
-
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         Guild guild = event.getGuild();
@@ -59,6 +53,11 @@ public class CreateChannelCommand extends Command {
     }
 
     public void createDefault(String desiredChannelType, Guild guild, SlashCommandInteractionEvent event, String desiredChannelName) {
+        if (nameExists(guild, desiredChannelName, null)) {
+            event.reply(replyDefault()).setEphemeral(true).queue();
+            return;
+        }
+
         switch(desiredChannelType) {
             case "TEXT":
                 handleText(guild, event, desiredChannelName);
@@ -86,6 +85,11 @@ public class CreateChannelCommand extends Command {
 
     public void createCategory(String desiredChannelType, Guild guild, SlashCommandInteractionEvent event, String desiredChannelName) {
         Category cg = event.getOption("category").getAsChannel().asCategory();
+        if (nameExists(guild, desiredChannelName, cg.getName())) {
+            event.reply(replyCategory(cg)).setEphemeral(true).queue();
+            return;
+        }
+
         switch (desiredChannelType) {
             case "TEXT":
                 handleText(guild, event, desiredChannelName, cg);
@@ -108,8 +112,16 @@ public class CreateChannelCommand extends Command {
         }
     }
 
-    public String reply() {
+    public String replyDefault() {
+        return "There is already a channel with that name in the default category.";
+    }
 
+    public String replyCategory(Category category) {
+        return "There is already a channel with that name in the " + category.getName() + " category.";
+    }
+
+    public boolean checkCommunity(Guild guild) {
+        return guild.getFeatures().contains("COMMUNITY");
     }
 
     public boolean checkCategory(SlashCommandInteractionEvent event) {
@@ -117,82 +129,43 @@ public class CreateChannelCommand extends Command {
     }
 
     public void handleStage(Guild guild, SlashCommandInteractionEvent event, String channelName, Category category) {
-        if (nameExists(guild, channelName, category.getName())) {
-            event.reply("There is a channel with that name in the ___ category").setEphemeral(true).queue();
-            return;
-        }
-
         guild.createStageChannel(channelName, category).queue();
-        event.reply(channelName + " created in ___ category").queue();
+        event.reply(channelName + " created in ___ category").setEphemeral(true).queue();
     }
 
     public void handleStage(Guild guild, SlashCommandInteractionEvent event, String channelName) {
-        if (nameExists(guild, channelName, null)) {
-            event.reply("There is a channel with that name in the default category").setEphemeral(true).queue();
-            return;
-        }
-
         guild.createStageChannel(channelName).queue();
         event.reply(channelName + " created in the default category").setEphemeral(true).queue();
     }
 
     public void handleMedia(Guild guild, SlashCommandInteractionEvent event, String channelName, Category category) {
-        //this might be a community channel type as well?
-        if (nameExists(guild, channelName, category.getName())) {
-            event.reply("There is a channel with that name in the ___ cateogory").setEphemeral(true).queue();
-            return;
-        }
-
         guild.createMediaChannel(channelName, category).queue();
         event.reply(channelName + " created in the ___ category").setEphemeral(true).queue();
     }
 
     public void handleMedia(Guild guild, SlashCommandInteractionEvent event, String channelName) {
-        //this might be a community channel type as well?
-        if (nameExists(guild, channelName, null)) {
-            event.reply("There is a channel with that name in the default cateogory").setEphemeral(true).queue();
-            return;
-        }
-
         guild.createMediaChannel(channelName).queue();
         event.reply(channelName + " created in the default category").setEphemeral(true).queue();
     }
 
     public void handleNews(Guild guild, SlashCommandInteractionEvent event, String channelName, Category category) {
-        //this might be a community channel type as well?
-        if (nameExists(guild, channelName, category.getName())) {
-            event.reply("There is a channel with that name in the ___ cateogory").setEphemeral(true).queue();
-            return;
-        }
-
         guild.createNewsChannel(channelName, category).queue();
         event.reply(channelName + " created in the ___ category").setEphemeral(true).queue();
     }
 
     public void handleNews(Guild guild, SlashCommandInteractionEvent event, String channelName) {
-        //this might be a community channel type as well?
-        if (nameExists(guild, channelName, null)) {
-            event.reply("There is a channel with that name in the default cateogory").setEphemeral(true).queue();
-            return;
-        }
-
         guild.createNewsChannel(channelName).queue();
         event.reply(channelName + " created in the default category").setEphemeral(true).queue();
     }
 
     public void handleForum(Guild guild, SlashCommandInteractionEvent event, String channelName, Category category) {
         //Forum channels can only be made if the Server has Community enabled
-        if (!guild.getFeatures().contains("COMMUNITY")) {
+        if (!checkCommunity(guild)) {
             event.reply("Server must have Community enabled to create forum channels.").queue();
             return;
         }
-
-        if (nameExists(guild, channelName, category.getName())) {
-            event.reply("already one with that name there").queue();
-            return;
-        }
         guild.createForumChannel(channelName, category).queue();
-        event.reply(channelName + " created in ___").queue();
+        event.reply(channelName + " created in ___").setEphemeral(true).queue();
     }
 
     public void handleForum(Guild guild, SlashCommandInteractionEvent event, String channelName) {
@@ -201,63 +174,33 @@ public class CreateChannelCommand extends Command {
             event.reply("Server must have Community enabled to create forum channels.").queue();
             return;
         }
-
-        if (nameExists(guild, channelName, null)) {
-            event.reply("already one with that name there").queue();
-            return;
-        }
         guild.createForumChannel(channelName).queue();
         event.reply(channelName + " created in default").queue();
     }
 
     public void handleVoice(Guild guild, SlashCommandInteractionEvent event, String channelName, Category category) {
-        if (nameExists(guild, channelName, category.getName())) {
-            event.reply("already one with that name there").queue();
-            return;
-        }
-
         guild.createVoiceChannel(channelName, category).queue();
-        event.reply(channelName + " created in the ___ category").queue();
+        event.reply(channelName + " created in the ___ category").setEphemeral(true).queue();
     }
 
     public void handleVoice(Guild guild, SlashCommandInteractionEvent event, String channelName) {
-        if (nameExists(guild, channelName, null)) {
-            event.reply("already one with that name there").queue();
-            return;
-        }
-
         guild.createVoiceChannel(channelName).queue();
-        event.reply(channelName + " created in the default category").queue();
+        event.reply(channelName + " created in the default category").setEphemeral(true).queue();
     }
 
     public void handleText(Guild guild, SlashCommandInteractionEvent event, String channelName, Category category) {
-        if (nameExists(guild, channelName, category.getName()/*Maybe issue here*/)) {
-            event.reply("There is already a channel with that name in that category.").queue();
-            return;
-        }
-
         guild.createTextChannel(channelName, category).queue();
-        event.reply(channelName + " created in the ___ category.").queue();
+        event.reply(channelName + " created in the ___ category.").setEphemeral(true).queue();
     }
 
     public void handleText(Guild guild, SlashCommandInteractionEvent event, String channelName) {
-        if (nameExists(guild, channelName, null)) {
-            event.reply("There is already a channel with that name in the default category.").queue();
-            return;
-        }
-
         guild.createTextChannel(channelName).queue();
-        event.reply(channelName + " created in the default category.").queue();
+        event.reply(channelName + " created in the default category.").setEphemeral(true).queue();
     }
 
     public void handleCategory(Guild guild, SlashCommandInteractionEvent event, String channelName) {
-        if (nameExists(guild, channelName, null)) {
-            event.reply("There is already a category with that name.").queue();
-            return;
-        }
-
         guild.createCategory(channelName).queue();
-        event.reply(channelName + " category created").queue();
+        event.reply(channelName + " category created").setEphemeral(true).queue();
     }
 
     public boolean nameExists(Guild guild, String newChannelName, String category) {
@@ -292,5 +235,4 @@ public class CreateChannelCommand extends Command {
 
         return false;
     }
-
 }
