@@ -34,8 +34,12 @@ public class CreateChannelCommand extends Command {
 
     }
 
-    // For types, we have:
-    // TEXT, VOICE, FORUM?, MEDIA?, NEWS, RULES, STAGE
+    //TODO: Functions for:
+    //TODO:  - toStringDefault()
+    //TODO:  - toStringCategory()
+    //TODO:  - checkCommunity()
+    //TODO:
+
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         Guild guild = event.getGuild();
@@ -46,66 +50,70 @@ public class CreateChannelCommand extends Command {
 
         String desiredChannelType = Objects.requireNonNull(event.getOption("channeltype")).getAsString();
 
-        //if there's no category, lets put it in the default category
-        if (event.getOption("category") == null) {
-
-            //what channelType? - maybe getting the channel type should be its own function?
-            if (desiredChannelType.equals("TEXT")) {
-                handleText(guild, event, desiredChannelName);
-            }
-            else if (desiredChannelType.equals("VOICE")) {
-                handleVoice(guild, event, desiredChannelName);
-            }
-            else if (desiredChannelType.equals("CATEGORY")) {
-                handleCategory(guild, event, desiredChannelName);
-            }
-            else if (desiredChannelType.equals("FORUM")) {
-                handleForum(guild, event, desiredChannelName);
-            }
-            else if (desiredChannelType.equals("NEWS")) {
-                handleNews(guild, event, desiredChannelName);
-            }
-            else if (desiredChannelType.equals("MEDIA")) {
-                handleMedia(guild, event, desiredChannelName);
-            }
-            else {
-                handleStage(guild, event, desiredChannelName); //what?
-            }
-
-            //should I just pass null to all these and make one function?
-
-        } else {
-            Channel ch = event.getOption("category").getAsChannel();
-            Category category = event.getOption("category").getAsChannel().asCategory();
-
-            //no categories here because we don't want to allow a category within a category (do we?)
-            if (desiredChannelType.equals("TEXT")) {
-                handleText(guild, event, desiredChannelName, category);//LEFT OFF HERE
-            }
-            else if (desiredChannelType.equals("VOICE")) {
-                handleVoice(guild, event, desiredChannelName, category);
-            }
-            else if (desiredChannelType.equals("FORUM")) {
-                handleForum(guild, event, desiredChannelName, category);
-            }
-            else if (desiredChannelType.equals("NEWS")) {
-                handleNews(guild, event, desiredChannelName, category);
-            }
-            else if (desiredChannelType.equals("MEDIA")) {
-                handleMedia(guild, event, desiredChannelName, category);
-            }
-            else {
-                handleStage(guild, event, desiredChannelName, category); //what?
-            }
+        if (checkCategory(event)) {
+            createDefault(desiredChannelType, guild, event, desiredChannelName);
         }
+        else {
+            createCategory(desiredChannelType, guild, event, desiredChannelName);
+        }
+    }
 
-        //this feels... gross. at the very least it should be a switch
+    public void createDefault(String desiredChannelType, Guild guild, SlashCommandInteractionEvent event, String desiredChannelName) {
+        switch(desiredChannelType) {
+            case "TEXT":
+                handleText(guild, event, desiredChannelName);
+                break;
+            case "VOICE":
+                handleVoice(guild ,event, desiredChannelName);
+                break;
+            case "CATEGORY":
+                handleCategory(guild, event, desiredChannelName);
+                break;
+            case "FORUM":
+                handleForum(guild, event, desiredChannelName);
+                break;
+            case "NEWS":
+                handleNews(guild, event, desiredChannelName);
+                break;
+            case "MEDIA":
+                handleMedia(guild, event, desiredChannelName);
+                break;
+            case "STAGE":
+                handleStage(guild, event, desiredChannelName);
+                break;
+        }
+    }
 
-        //TODO: Let's make sure that everything is being set to ephemeral with these messages,
-        //TODO: there has got to be a better way to code this, I just liked all the typing.
-        //TODO: Can probably put all the print statements in their own method.
-        //TODO: Honestly, all these can probably just be replaced with their own single method
-        //TODO: and just be passed null values
+    public void createCategory(String desiredChannelType, Guild guild, SlashCommandInteractionEvent event, String desiredChannelName) {
+        Category cg = event.getOption("category").getAsChannel().asCategory();
+        switch (desiredChannelType) {
+            case "TEXT":
+                handleText(guild, event, desiredChannelName, cg);
+                break;
+            case "VOICE":
+                handleVoice(guild ,event, desiredChannelName, cg);
+                break;
+            case "FORUM":
+                handleForum(guild, event, desiredChannelName, cg);
+                break;
+            case "NEWS":
+                handleNews(guild, event, desiredChannelName, cg);
+                break;
+            case "MEDIA":
+                handleMedia(guild, event, desiredChannelName, cg);
+                break;
+            case "STAGE":
+                handleStage(guild, event, desiredChannelName, cg);
+                break;
+        }
+    }
+
+    public String reply() {
+
+    }
+
+    public boolean checkCategory(SlashCommandInteractionEvent event) {
+        return event.getOption("category") == null;
     }
 
     public void handleStage(Guild guild, SlashCommandInteractionEvent event, String channelName, Category category) {
