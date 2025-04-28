@@ -12,8 +12,15 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This command creates an embed containing info on a user-selected member of the current guild.
+ */
 public class UserInfoCommand extends Command {
 
+    /**
+     * Creates an instance of the UserInfoCommand.
+     * @param jbot - Bot singleton to which the command is registered.
+     */
     public UserInfoCommand(JBot jbot) {
         super(jbot);
         this.name = "userinfo";
@@ -21,16 +28,14 @@ public class UserInfoCommand extends Command {
         this.commandOptionData.add(new OptionData(OptionType.USER, "user", "user to display info for", true));
     }
 
+    /**
+     * Create an embed containing info on the server which the command was made.
+     * @param event - Event trigger.
+     */
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-
-        //Probably need to check permissions because we might not want everyone to have access to this command?
-
-        //A user should be able to display their own info, if their curious? mayhaps?
-
         Guild guild = event.getGuild();
 
-        //User and Member both have different methods associated with them. So I guess we just use both?
         User user = event.getOption("user").getAsUser();
         Member member = event.getOption("user").getAsMember();
 
@@ -44,7 +49,7 @@ public class UserInfoCommand extends Command {
                                  "\nJoined " + guild.getName() + ": " + member.getTimeJoined().format(formatter) +
                                    "\n" + member.getRoles()); //this will require formatting
 
-            builder.setImage(user.getEffectiveAvatarUrl()); //YOU CAN PUT THIS LOGIC IN NOWPLAYINGCOMMAND MAYBE?
+            builder.setImage(user.getEffectiveAvatarUrl());
 
             event.replyEmbeds(builder.build()).queue();
         }

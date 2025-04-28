@@ -31,4 +31,8 @@ public abstract class Command {
 
     public abstract void execute(SlashCommandInteractionEvent event);
 
+    public boolean requiresPermission() {
+        return requiredPermission != null;
+    }
+
 }

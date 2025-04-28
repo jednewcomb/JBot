@@ -40,26 +40,26 @@ public class CommandRegistry extends ListenerAdapter {
      */
     public CommandRegistry(JBot bot) {
         mapCommand(new PlayCommand(bot),
-                   new PauseCommand(bot),
-                   new StopCommand(bot),
-                   new SkipCommand(bot),
-                   new ReplayCommand(bot),
-                   new ClearCommand(bot),
-                   new NowPlayingCommand(bot),
+                new PauseCommand(bot),
+                new StopCommand(bot),
+                new SkipCommand(bot),
+                new ReplayCommand(bot),
+                new ClearCommand(bot),
+                new NowPlayingCommand(bot),
 
-                   new SarcasmCommand(bot),
-                   new ReverseCommand(bot),
-                   new Magic8BallCommand(bot),
-                   new JokeCommand(bot),
+                new SarcasmCommand(bot),
+                new ReverseCommand(bot),
+                new Magic8BallCommand(bot),
+                new JokeCommand(bot),
 
-                   new HelpCommand(bot),
-                   new PingCommand(bot),
-                   new UserInfoCommand(bot),
-                   new ServerInfoCommand(bot),
+                new HelpCommand(bot),
+                new PingCommand(bot),
+                new UserInfoCommand(bot),
+                new ServerInfoCommand(bot),
 
-                   new BanCommand(bot),
-                   new UnbanCommand(bot),
-                   new CreateChannelCommand(bot));
+                new BanCommand(bot),
+                new UnbanCommand(bot),
+                new CreateChannelCommand(bot));
     }
 
     /**
@@ -82,25 +82,26 @@ public class CommandRegistry extends ListenerAdapter {
      *
      * @param event - The SlashCommand event.
      */
-    public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         Command cmd = commandMap.get(event.getName());
 
         //maybe add some more null checks
 
         //check that bot has correct permissions to carry out command
-        Guild guild = event.getGuild();
-        if (!Objects.requireNonNull(guild).getBotRole().hasPermission(cmd.requiredPermission)) {
-            event.reply("I do not have the necessary permissions to use that command").setEphemeral(true).queue();
-            return;
-        }
+        if (cmd.requiresPermission()) {
+            Guild guild = event.getGuild();
+            if (!Objects.requireNonNull(guild).getBotRole().hasPermission(cmd.requiredPermission)) {
+                event.reply("I do not have the necessary permissions to use that command").setEphemeral(true).queue();
+                return;
+            }
 
-        //check that member has correct permissions/role
-        Member member = event.getMember();
-        if (!Objects.requireNonNull(member).hasPermission(cmd.requiredPermission)) {
-            event.reply("You lack the necessary permissions to use that command").setEphemeral(true).queue();
-            return;
+            //check that member has correct permissions/role if that command requires it
+            Member member = event.getMember();
+            if (!Objects.requireNonNull(member).hasPermission(cmd.requiredPermission)) {
+                event.reply("You lack the necessary permissions to use that command").setEphemeral(true).queue();
+                return;
+            }
         }
-
 
         cmd.execute(event);
     }
@@ -137,5 +138,5 @@ public class CommandRegistry extends ListenerAdapter {
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         event.getGuild().updateCommands().addCommands(unpackCommandData()).queue();
     }
-    
+
 }

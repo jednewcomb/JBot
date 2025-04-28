@@ -8,8 +8,15 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
+/**
+ * This command creates an embed containing info on JBot's commands.
+ */
 public class HelpCommand extends Command {
 
+    /**
+     * Creates an instance of the HelpCommand.
+     * @param jbot - Bot singleton to which the command is registered.
+     */
     public HelpCommand(JBot jbot) {
         super(jbot);
         this.name = "help";
@@ -24,7 +31,8 @@ public class HelpCommand extends Command {
     }
 
     /**
-     * @param event
+     * Create an embed containing command info based on command type.
+     * @param event - Event trigger.
      */
     @Override
     public void execute(SlashCommandInteractionEvent event) {

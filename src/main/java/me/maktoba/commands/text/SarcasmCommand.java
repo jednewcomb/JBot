@@ -22,14 +22,13 @@ public class SarcasmCommand extends Command {
     }
 
     /**
-     * I think that it looks better when the second letter starts being capitalized
+     * I think that it looks better when the second letter begins the sequence
      * @param event
      */
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         String text = event.getOption("text").getAsString();
         StringBuilder sb = new StringBuilder();
-
         sb.append(Character.toLowerCase(text.charAt(0)));
 
         for (int i = 1; i < text.length(); i++) {
