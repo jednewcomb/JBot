@@ -1,12 +1,18 @@
 package me.maktoba.listeners;
 
+import ch.qos.logback.core.net.server.Client;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.source.bandcamp.BandcampAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.soundcloud.*;
+import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import dev.lavalink.youtube.clients.Tv;
+import dev.lavalink.youtube.clients.TvHtml5Embedded;
 import io.github.cdimascio.dotenv.Dotenv;
 import me.maktoba.handlers.GuildMusicManager;
 import net.dv8tion.jda.api.entities.Guild;
@@ -28,15 +34,17 @@ public class MusicListener extends ListenerAdapter {
     private static MusicListener INSTANCE;
     private final AudioPlayerManager playerManager;
     private final YoutubeAudioSourceManager ytSourceManager;
+    //private final VimeoAudioSourceManager vimeoSourceManager;
+    //private final BandcampAudioSourceManager bandCampAudioSourceManager;
     private final Map<Long, GuildMusicManager> guildMusicManagers;
     private final Dotenv oAuthToken;
 
     /**
-     * Registers the YouTube audio source manager and local audio sources with the AudioPlayerManager.
+     * Registers audio source managers for YouTube, Vimeo, BandCamp, and SoundCloud.
      */
     private MusicListener() {
         playerManager = new DefaultAudioPlayerManager();
-        ytSourceManager = new dev.lavalink.youtube.YoutubeAudioSourceManager();
+        ytSourceManager = new dev.lavalink.youtube.YoutubeAudioSourceManager(false, new TvHtml5Embedded());
         playerManager.registerSourceManager(ytSourceManager);
 
         guildMusicManagers = new HashMap<>();
@@ -45,13 +53,14 @@ public class MusicListener extends ListenerAdapter {
         String ytToken = oAuthToken.get("YOUTUBETOKEN");
         ytSourceManager.useOauth2(ytToken, true);
 
+        AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);
     }
 
     /**
-     * Retrieves the instance of MusicListener
+     * Retrieves the instance of MusicListener.
      *
-     * @return the singleton instance of MusicListener
+     * @return the singleton instance of MusicListener.
      */
     public static MusicListener get() {
         if (INSTANCE == null) {
@@ -106,7 +115,8 @@ public class MusicListener extends ListenerAdapter {
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                System.out.println(exception.getMessage() + " " + exception.severity);
+                System.out.println("Failed to load track: " + trackURL + " exception trace:");
+                exception.printStackTrace();
             }
         });
     }
