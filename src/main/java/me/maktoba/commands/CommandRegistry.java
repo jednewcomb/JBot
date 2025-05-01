@@ -7,6 +7,7 @@ import me.maktoba.commands.general.ServerInfoCommand;
 import me.maktoba.commands.general.UserInfoCommand;
 import me.maktoba.commands.moderation.BanCommand;
 import me.maktoba.commands.moderation.CreateChannelCommand;
+import me.maktoba.commands.moderation.NickNameCommand;
 import me.maktoba.commands.moderation.UnbanCommand;
 import me.maktoba.commands.text.*;
 import me.maktoba.commands.music.*;
@@ -59,7 +60,8 @@ public class CommandRegistry extends ListenerAdapter {
 
                 new BanCommand(bot),
                 new UnbanCommand(bot),
-                new CreateChannelCommand(bot));
+                new CreateChannelCommand(bot),
+                new NickNameCommand(bot));
     }
 
     /**
