@@ -27,6 +27,7 @@ public class CreateChannelCommand extends Command {
         super(bot);
         this.name = "newchannel";
         this.description = "Creates a new channel in the server in the desired subcategory, or the default one";
+        this.type = "moderation";
         this.requiredPermission = Permission.MANAGE_CHANNEL;
         this.commandOptionData.add(new OptionData(OptionType.STRING, "channelname", "desired name for new channel", true));
 

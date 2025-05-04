@@ -19,6 +19,7 @@ public class PingCommand extends Command {
         super(jbot);
         this.name = "ping";
         this.description = "Responds with \"Pong!\" and displays the bot latency.";
+        this.type = "general";
     }
 
     /**

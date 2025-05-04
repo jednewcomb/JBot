@@ -25,6 +25,7 @@ public class UserInfoCommand extends Command {
         super(jbot);
         this.name = "userinfo";
         this.description = "Displays information about a given user";
+        this.type = "general";
         this.commandOptionData.add(new OptionData(OptionType.USER, "user", "user to display info for", true));
     }
 

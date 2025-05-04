@@ -19,6 +19,7 @@ public class ServerInfoCommand extends Command {
         super(jbot);
         this.name = "serverinfo";
         this.description = "Displays information about the server";
+        this.type = "general";
     }
 
     /**

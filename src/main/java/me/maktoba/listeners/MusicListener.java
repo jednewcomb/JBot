@@ -7,16 +7,23 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.source.bandcamp.BandcampAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.soundcloud.*;
 import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioTrack;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import dev.lavalink.youtube.clients.Music;
+import dev.lavalink.youtube.clients.MusicWithThumbnail;
 import dev.lavalink.youtube.clients.TvHtml5Embedded;
+import dev.lavalink.youtube.clients.TvHtml5EmbeddedWithThumbnail;
+import dev.lavalink.youtube.clients.skeleton.ThumbnailMusicClient;
 import io.github.cdimascio.dotenv.Dotenv;
 import me.maktoba.handlers.GuildMusicManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import dev.lavalink.youtube.clients.skeleton.NonMusicClientWithThumbnail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,23 +42,27 @@ public class MusicListener extends ListenerAdapter {
     static final Logger logger = LoggerFactory.getLogger(MusicListener.class);
     private static MusicListener INSTANCE;
     private final AudioPlayerManager playerManager;
-    private final YoutubeAudioSourceManager ytSourceManager;
-    //private final VimeoAudioSourceManager vimeoSourceManager;
-    //private final BandcampAudioSourceManager bandCampAudioSourceManager;
+    //private final SoundCloudAudioSourceManager soundCloudAudioSourceManager;
     private final Map<Long, GuildMusicManager> guildMusicManagers;
-    private final Dotenv oAuthToken;
 
     /**
      * Registers audio source managers for YouTube, Vimeo, BandCamp, and SoundCloud.
      */
     private MusicListener() {
         playerManager = new DefaultAudioPlayerManager();
-        ytSourceManager = new dev.lavalink.youtube.YoutubeAudioSourceManager(true, new TvHtml5Embedded());
+        VimeoAudioSourceManager vimeoSourceManager = new VimeoAudioSourceManager();
+        BandcampAudioSourceManager bandCampAudioSourceManager = new BandcampAudioSourceManager();
+        //soundCloudAudioSourceManager = new SoundCloudAudioSourceManager();
+        YoutubeAudioSourceManager ytSourceManager = new YoutubeAudioSourceManager(true, new TvHtml5Embedded());
+
         playerManager.registerSourceManager(ytSourceManager);
+        playerManager.registerSourceManager(vimeoSourceManager);
+        playerManager.registerSourceManager(bandCampAudioSourceManager);
+        //playerManager.registerSourceManager(soundCloudAudioSourceManager);;
 
         guildMusicManagers = new HashMap<>();
 
-        oAuthToken = Dotenv.configure().load();
+        Dotenv oAuthToken = Dotenv.configure().load();
         String ytToken = oAuthToken.get("YOUTUBETOKEN");
 
 //        ytSourceManager.useOauth2(null, false);
@@ -104,27 +115,33 @@ public class MusicListener extends ListenerAdapter {
             @Override
             public void trackLoaded(AudioTrack track) {
                 guildMusicManager.getTrackScheduler().queue(track);
-                event.reply("Playing " + track.getInfo().toString()).queue();
+                event.replyFormat("Playing **%s** by **%s**", track.getInfo().title, track.getInfo().author).queue();
             }
 
+            /**
+             * Search queries on YouTube that include "ytsearch:" load as playlists
+             * because a single query can result in multiple tracks (I assume due to
+             * similarly named Songs or Artists)
+             */
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                //we just loaded one track
                 if (playlist.isSearchResult()) {
-                    guildMusicManager.getTrackScheduler().queue(playlist.getTracks().get(0));
-                    event.reply("Playing " + playlist.getTracks().get(0).toString()).queue();
+                    AudioTrack track = playlist.getTracks().get(0);
+                    guildMusicManager.getTrackScheduler().queue(track);
+                    event.replyFormat("Playing **%s** by **%s**", track.getInfo().title, track.getInfo().author).queue();
                 } else {
 
                     for (AudioTrack track : playlist.getTracks()) {
                         guildMusicManager.getTrackScheduler().queue(track);
                     }
-
+                    event.replyFormat("Playlist added: **%s**", playlist.getName()).queue();
                 }
             }
 
             @Override
             public void noMatches() {
                 logger.info("No matches found!");
+                event.reply("No matches found").queue();
             }
 
             @Override

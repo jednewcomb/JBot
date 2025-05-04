@@ -12,9 +12,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import java.awt.*;
 
 public class NowPlayingCommand extends Command {
-
-    public NowPlayingCommand(JBot jbot) {
-        super(jbot);
+    public NowPlayingCommand(JBot bot) {
+        super(bot);
         this.name = "nowplaying";
         this.description = "Show info on currently playing song";
         this.type = "music";

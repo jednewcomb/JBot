@@ -12,16 +12,15 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
  * This command creates an embed containing info on JBot's commands.
  */
 public class HelpCommand extends Command {
-
     /**
      * Creates an instance of the HelpCommand.
-     * @param jbot - Bot singleton to which the command is registered.
+     * @param bot - Bot singleton to which the command is registered.
      */
-    public HelpCommand(JBot jbot) {
-        super(jbot);
+    public HelpCommand(JBot bot) {
+        super(bot);
         this.name = "help";
         this.description = "display information on JBot commands";
-        this.type = "text";
+        this.type = "general";
         this.commandOptionData
                 .add(new OptionData(OptionType.STRING, "type", "the type of command to see info for", true)
                 .addChoice("general", "general")
