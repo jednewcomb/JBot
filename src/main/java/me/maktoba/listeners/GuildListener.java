@@ -1,6 +1,6 @@
 package me.maktoba.listeners;
 
-import net.dv8tion.jda.api.entities.Guild;
+
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -20,5 +20,4 @@ public class GuildListener extends ListenerAdapter {
 
         event.getGuild().getDefaultChannel().asTextChannel().sendMessage(welcome).queue();
     }
-
 }

@@ -1,6 +1,5 @@
 package me.maktoba.listeners;
 
-import ch.qos.logback.core.net.server.Client;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -11,13 +10,15 @@ import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import dev.lavalink.youtube.clients.Tv;
 import dev.lavalink.youtube.clients.TvHtml5Embedded;
 import io.github.cdimascio.dotenv.Dotenv;
 import me.maktoba.handlers.GuildMusicManager;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,7 @@ import java.util.Map;
  * in Discord voice channels.
  */
 public class MusicListener extends ListenerAdapter {
+    static final Logger logger = LoggerFactory.getLogger(MusicListener.class);
     private static MusicListener INSTANCE;
     private final AudioPlayerManager playerManager;
     private final YoutubeAudioSourceManager ytSourceManager;
@@ -44,13 +46,15 @@ public class MusicListener extends ListenerAdapter {
      */
     private MusicListener() {
         playerManager = new DefaultAudioPlayerManager();
-        ytSourceManager = new dev.lavalink.youtube.YoutubeAudioSourceManager(false, new TvHtml5Embedded());
+        ytSourceManager = new dev.lavalink.youtube.YoutubeAudioSourceManager(true, new TvHtml5Embedded());
         playerManager.registerSourceManager(ytSourceManager);
 
         guildMusicManagers = new HashMap<>();
 
         oAuthToken = Dotenv.configure().load();
         String ytToken = oAuthToken.get("YOUTUBETOKEN");
+
+//        ytSourceManager.useOauth2(null, false);
         ytSourceManager.useOauth2(ytToken, true);
 
         AudioSourceManagers.registerRemoteSources(playerManager);
@@ -93,30 +97,39 @@ public class MusicListener extends ListenerAdapter {
      * @param guild the guild where the track will be queued
      * @param trackURL the URL of the track or playlist to be loaded
      */
-    public void loadTrack(Guild guild, String trackURL) {
+    public void loadTrack(SlashCommandInteractionEvent event, Guild guild, String trackURL) {
         GuildMusicManager guildMusicManager = getGuildMusicManager(guild);
+
         playerManager.loadItemOrdered(guildMusicManager, trackURL, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 guildMusicManager.getTrackScheduler().queue(track);
+                event.reply("Playing " + track.getInfo().toString()).queue();
             }
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                for (AudioTrack track : playlist.getTracks()) {
-                    guildMusicManager.getTrackScheduler().queue(track);
+                //we just loaded one track
+                if (playlist.isSearchResult()) {
+                    guildMusicManager.getTrackScheduler().queue(playlist.getTracks().get(0));
+                    event.reply("Playing " + playlist.getTracks().get(0).toString()).queue();
+                } else {
+
+                    for (AudioTrack track : playlist.getTracks()) {
+                        guildMusicManager.getTrackScheduler().queue(track);
+                    }
+
                 }
             }
 
             @Override
             public void noMatches() {
-                System.out.println("no matches");
+                logger.info("No matches found!");
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                System.out.println("Failed to load track: " + trackURL + " exception trace:");
-                exception.printStackTrace();
+                logger.info("Failed to load track " + trackURL);
             }
         });
     }

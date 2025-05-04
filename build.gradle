@@ -25,8 +25,7 @@ dependencies {
     implementation("net.dv8tion:JDA:5.5.0")
     implementation 'dev.arbjerg:lavaplayer:2.2.3'
     implementation 'io.github.cdimascio:java-dotenv:5.2.2'
-    //implementation("dev.lavalink.youtube:v2:1.13.0")
-    implementation("com.github.lavalink-devs.youtube-source:common:0e5cfca4e8")
+    implementation("dev.lavalink.youtube:v2:1.13.2")
     implementation 'com.github.the-codeboy:Jokes4J:152d62e0'
     implementation("ch.qos.logback:logback-classic:1.5.18")
     testImplementation platform('org.junit:junit-bom:5.9.1')
