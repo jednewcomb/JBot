@@ -115,7 +115,7 @@ public class MusicListener extends ListenerAdapter {
             @Override
             public void trackLoaded(AudioTrack track) {
                 guildMusicManager.getTrackScheduler().queue(track);
-                event.replyFormat("Playing **%s** by **%s**", track.getInfo().title, track.getInfo().author).queue();
+                event.replyFormat("Playing **%s**", track.getInfo().title).queue();
             }
 
             /**
@@ -128,7 +128,7 @@ public class MusicListener extends ListenerAdapter {
                 if (playlist.isSearchResult()) {
                     AudioTrack track = playlist.getTracks().get(0);
                     guildMusicManager.getTrackScheduler().queue(track);
-                    event.replyFormat("Playing **%s** by **%s**", track.getInfo().title, track.getInfo().author).queue();
+                    event.replyFormat("Playing **%s**", track.getInfo().title).queue();
                 } else {
 
                     for (AudioTrack track : playlist.getTracks()) {

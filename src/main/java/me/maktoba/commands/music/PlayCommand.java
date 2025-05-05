@@ -24,7 +24,7 @@ import java.util.Optional;
 //TODO:  more sophisticated output.
 
 /**
- * This command Plays a desired song from a link or adds music tracks to our queue.
+ * This command plays a desired song from a link or search query or adds music tracks to our queue.
  */
 public class PlayCommand extends Command {
     /**
