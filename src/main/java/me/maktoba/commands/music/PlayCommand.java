@@ -20,8 +20,6 @@ import java.util.Optional;
 //TODO: -We eventually will want to be able to handle more audio sources
 //TODO:     Vimeo, Bandcamp, etc could probably just all be sent to youtube
 //TODO:     with some formatting, and would be the easiest way.
-//TODO: -We could also format an Embed with thumbnails and input for
-//TODO:  more sophisticated output.
 
 /**
  * This command plays a desired song from a link or search query or adds music tracks to our queue.
@@ -56,7 +54,7 @@ public class PlayCommand extends Command {
                 .orElse(null);
 
         if (userChannel == null) {
-            event.reply("You are not in a voice channel").queue();
+            event.reply("Join a Voice Channel to use music commands!").queue();
             return;
         }
 
@@ -73,6 +71,7 @@ public class PlayCommand extends Command {
             //its paused, continue playing
             if (event.getOption("song") == null) {
                 scheduler.resume();
+                event.reply("Playback resumed.").setEphemeral(true).queue();
                 return;
             }
         }

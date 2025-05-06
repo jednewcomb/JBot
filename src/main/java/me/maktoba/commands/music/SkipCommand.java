@@ -16,6 +16,7 @@ public class SkipCommand extends Command {
         this.type = "music";
     }
 
+    //TODO: Reply here!
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         Guild guild = event.getGuild();

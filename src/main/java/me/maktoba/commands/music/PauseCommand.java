@@ -1,5 +1,6 @@
 package me.maktoba.commands.music;
 
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
@@ -35,21 +36,13 @@ public class PauseCommand extends Command {
         TrackScheduler scheduler = music.getGuildMusicManager(guild).getTrackScheduler();
 
         if (scheduler.isPaused()) {
-            event.reply("Player is already paused! Use /play to resume playback.").queue();
+            event.reply("Player is currently paused! Use /play to resume playback.").queue();
             return;
         }
 
         scheduler.pause();
-        event.replyFormat("Player was paused." + getCurrentTrackTitle(scheduler)).queue();
+        AudioTrack currentPlayingTrack = scheduler.getPlayer().getPlayingTrack();
+        event.replyFormat("Playback for **%s** was paused.", currentPlayingTrack.getInfo().title).queue();
     }
 
-    //TODO: FIX?
-    private String getCurrentTrackTitle(TrackScheduler scheduler) {
-        //Peek here is returning null - I think we need to
-        //look at how the Queue is mutating between each Play/Pause action.
-
-        //we're getting the same track twice in the queue for some reason.
-        AudioTrackInfo trackInfo = scheduler.getQueue().peek().getInfo();
-        return trackInfo.title;
-    }
 }
