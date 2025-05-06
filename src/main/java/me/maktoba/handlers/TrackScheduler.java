@@ -62,7 +62,7 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public boolean isPlaying() {
-        return player.getPlayingTrack() == null;
+        return player.getPlayingTrack() != null;
     }
 
     public boolean isPaused() {

@@ -1,5 +1,7 @@
 package me.maktoba.commands.music;
 
+import com.sedmelluq.discord.lavaplayer.tools.JsonBrowser;
+import com.sedmelluq.discord.lavaplayer.tools.ThumbnailTools;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
@@ -21,17 +23,30 @@ public class NowPlayingCommand extends Command {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        EmbedBuilder embed = new EmbedBuilder();
-        Guild guild = event.getGuild();
         MusicListener  music = MusicListener.get();
-        TrackScheduler ts = music.getGuildMusicManager(guild).getTrackScheduler();
+        if (music == null) return;
 
-        AudioTrackInfo info = ts.getPlayer().getPlayingTrack().getInfo();
+        Guild guild = event.getGuild();
+        TrackScheduler scheduler = music.getGuildMusicManager(guild).getTrackScheduler();
 
-        embed.setTitle(info.title);
-        embed.setDescription(ts.getPlayer().getPlayingTrack().getInfo().uri);
-        embed.setColor(Color.RED);
-        event.replyEmbeds(embed.build()).queue();
+        if (!scheduler.isPlaying()) {
+            event.reply("Player is not currently playing a track.").queue();
+            return;
+        }
 
+        event.replyEmbeds(buildEmbed(scheduler).build()).queue();
+
+    }
+
+    private EmbedBuilder buildEmbed(TrackScheduler scheduler) {
+        AudioTrackInfo info = scheduler.getPlayer().getPlayingTrack().getInfo();
+        String url = info.uri;
+        String thumbnail = ThumbnailTools.getYouTubeThumbnail(JsonBrowser.NULL_BROWSER, info.identifier);
+
+        return new EmbedBuilder()
+                .setTitle(info.title)
+                .setDescription(url)
+                .setImage(thumbnail)
+                .setColor(Color.RED);
     }
 }

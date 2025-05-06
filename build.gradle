@@ -12,23 +12,23 @@ java {
 group = 'me.maktoba'
 version = '1.0-SNAPSHOT'
 description = 'DiscordBot'
-sourceCompatibility = '1.8'
 
 
 repositories {
-    mavenLocal()
     mavenCentral()
+    mavenLocal()
     maven { url "https://jitpack.io" }
     maven {url "https://maven.lavalink.dev/releases"}
 }
 
 dependencies {
-    implementation("net.dv8tion:JDA:5.5.0")
+    implementation("net.dv8tion:JDA:5.5.1")
     implementation 'dev.arbjerg:lavaplayer:2.2.3'
     implementation("dev.lavalink.youtube:v2:1.13.2")
     implementation 'io.github.cdimascio:java-dotenv:5.2.2'
     implementation 'com.github.the-codeboy:Jokes4J:152d62e0'
     implementation("ch.qos.logback:logback-classic:1.5.18")
+    implementation("club.minnced:udpqueue-native-win-x86-64:0.2.9")
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 

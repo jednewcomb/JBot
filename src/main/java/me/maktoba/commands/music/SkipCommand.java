@@ -1,5 +1,6 @@
 package me.maktoba.commands.music;
 
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
 import me.maktoba.handlers.TrackScheduler;
@@ -16,13 +17,23 @@ public class SkipCommand extends Command {
         this.type = "music";
     }
 
-    //TODO: Reply here!
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        Guild guild = event.getGuild();
         MusicListener music = MusicListener.get();
-        TrackScheduler ts = music.getGuildMusicManager(guild).getTrackScheduler();
+        if (music == null) return;
 
-        ts.skip();
+        Guild guild = event.getGuild();
+        TrackScheduler scheduler = music.getGuildMusicManager(guild).getTrackScheduler();
+
+        if (!scheduler.isPlaying()) {
+            event.reply("Player is not currently playing a track.").setEphemeral(true).queue();
+            return;
+        }
+        
+        AudioTrack currentPlayingTrack = scheduler.getPlayer().getPlayingTrack();
+        event.replyFormat("**%s** was skipped.", currentPlayingTrack.getInfo().title)
+                .setEphemeral(true)
+                .queue();
+        scheduler.skip();
     }
 }

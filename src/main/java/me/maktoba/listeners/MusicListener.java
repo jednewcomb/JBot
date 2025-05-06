@@ -34,8 +34,8 @@ public class MusicListener extends ListenerAdapter {
     static final Logger logger = LoggerFactory.getLogger(MusicListener.class);
     private static MusicListener INSTANCE;
     private final AudioPlayerManager playerManager;
-    //private final SoundCloudAudioSourceManager soundCloudAudioSourceManager;
     private final Map<Long, GuildMusicManager> guildMusicManagers;
+    public final YoutubeAudioSourceManager ytSourceManager;
 
     /**
      * Registers audio source managers for YouTube, Vimeo, BandCamp, and SoundCloud.
@@ -44,8 +44,7 @@ public class MusicListener extends ListenerAdapter {
         playerManager = new DefaultAudioPlayerManager();
         VimeoAudioSourceManager vimeoSourceManager = new VimeoAudioSourceManager();
         BandcampAudioSourceManager bandCampAudioSourceManager = new BandcampAudioSourceManager();
-        //soundCloudAudioSourceManager = new SoundCloudAudioSourceManager();
-        YoutubeAudioSourceManager ytSourceManager = new YoutubeAudioSourceManager(true, new TvHtml5Embedded());
+        ytSourceManager = new YoutubeAudioSourceManager(true, new TvHtml5Embedded());
 
         playerManager.registerSourceManager(ytSourceManager);
         playerManager.registerSourceManager(vimeoSourceManager);
@@ -106,7 +105,7 @@ public class MusicListener extends ListenerAdapter {
             @Override
             public void trackLoaded(AudioTrack track) {
                 guildMusicManager.getTrackScheduler().queue(track);
-                event.replyFormat("Playing **%s**", track.getInfo().title).queue();
+                event.replyFormat("Queued **%s**.", track.getInfo().title).queue();
             }
 
             /**
@@ -119,25 +118,26 @@ public class MusicListener extends ListenerAdapter {
                 if (playlist.isSearchResult()) {
                     AudioTrack track = playlist.getTracks().get(0);
                     guildMusicManager.getTrackScheduler().queue(track);
-                    event.replyFormat("Playing **%s**", track.getInfo().title).queue();
+                    event.replyFormat("Queued **%s**.", track.getInfo().title).queue();
                 } else {
 
                     for (AudioTrack track : playlist.getTracks()) {
                         guildMusicManager.getTrackScheduler().queue(track);
                     }
-                    event.replyFormat("Playlist added: **%s**", playlist.getName()).queue();
+                    event.replyFormat("Playlist queued: **%s**.", playlist.getName()).queue();
                 }
             }
 
             @Override
             public void noMatches() {
                 logger.info("No matches found!");
-                event.reply("No matches found").queue();
+                event.reply("No matches found.").setEphemeral(true).queue();
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                logger.info("Failed to load track " + trackURL);
+                logger.info("Failed to load track " + trackURL + ".");
+                event.reply("Failed to load track.").setEphemeral(true).queue();
             }
         });
     }

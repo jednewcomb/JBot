@@ -1,6 +1,6 @@
 package me.maktoba;
 
-import java.io.IOException;
+import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import me.maktoba.commands.CommandRegistry;
 import io.github.cdimascio.dotenv.Dotenv;
 import me.maktoba.listeners.GuildListener;
@@ -21,7 +21,10 @@ public class JBot {
     public JBot() throws LoginException {
         config = Dotenv.configure().load();
         String token = config.get("TOKEN");
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token)
+                .setAudioSendFactory(
+                        new NativeAudioSendFactory()
+                );
 
         builder.enableIntents(GatewayIntent.GUILD_MEMBERS,
                               GatewayIntent.GUILD_MESSAGES,
@@ -45,7 +48,7 @@ public class JBot {
         return config;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         try {
             new JBot();
         } catch(Exception e) {

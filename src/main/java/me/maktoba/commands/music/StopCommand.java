@@ -34,7 +34,7 @@ public class StopCommand extends Command {
         Guild guild = event.getGuild();
         TrackScheduler scheduler = music.getGuildMusicManager(guild).getTrackScheduler();
 
-        if (scheduler.isPlaying()) {
+        if (!scheduler.isPlaying()) {
             event.reply("Player is not currently playing a track.").setEphemeral(true).queue();
             return;
         }
