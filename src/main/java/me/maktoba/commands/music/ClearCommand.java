@@ -46,6 +46,6 @@ public class ClearCommand extends Command {
         }
 
         scheduler.clear();
-        event.reply("Queue cleared.").queue();
+        event.reply("Queue cleared.").setEphemeral(true).queue();
     }
 }

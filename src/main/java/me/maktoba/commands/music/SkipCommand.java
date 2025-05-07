@@ -8,8 +8,15 @@ import me.maktoba.listeners.MusicListener;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+/**
+ * This command allows user's to skip the current playing track.
+ */
 public class SkipCommand extends Command {
 
+    /**
+     * Creates and instance of SkipCommand.
+     * @param bot - Bot singleton.
+     */
     public SkipCommand(JBot bot) {
         super(bot);
         this.name = "skip";
@@ -17,6 +24,10 @@ public class SkipCommand extends Command {
         this.type = "music";
     }
 
+    /**
+     * Skip the current track if there is one.
+     * @param event - Event trigger.
+     */
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         MusicListener music = MusicListener.get();

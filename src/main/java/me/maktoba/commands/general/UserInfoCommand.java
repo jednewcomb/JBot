@@ -3,12 +3,13 @@ package me.maktoba.commands.general;
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import java.time.format.DateTimeFormatter;
 
@@ -19,12 +20,12 @@ public class UserInfoCommand extends Command {
 
     /**
      * Creates an instance of the UserInfoCommand.
-     * @param jbot - Bot singleton to which the command is registered.
+     * @param bot - Bot singleton to which the command is registered.
      */
-    public UserInfoCommand(JBot jbot) {
-        super(jbot);
+    public UserInfoCommand(JBot bot) {
+        super(bot);
         this.name = "userinfo";
-        this.description = "Displays information about a given user";
+        this.description = "Displays information about a given user.";
         this.type = "general";
         this.commandOptionData.add(new OptionData(OptionType.USER, "user", "user to display info for", true));
     }
@@ -36,26 +37,32 @@ public class UserInfoCommand extends Command {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         Guild guild = event.getGuild();
-
         User user = event.getOption("user").getAsUser();
         Member member = event.getOption("user").getAsMember();
 
         if (guild.isMember(user)) {
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM dd, yyyy");
-
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.setTitle(user.getGlobalName());
-            builder.setDescription("Joined Discord: " + user.getTimeCreated().format(formatter) +
-                                 "\nJoined " + guild.getName() + ": " + member.getTimeJoined().format(formatter) +
-                                   "\n" + member.getRoles()); //this will require formatting
-
-            builder.setImage(user.getEffectiveAvatarUrl());
-
-            event.replyEmbeds(builder.build()).queue();
+            event.replyEmbeds(buildEmbed(guild, user, member).build()).setEphemeral(true).queue();
         }
         else {
-            event.reply("User not found in this server. Check for typos?").queue();
+            event.reply("User not found in this server. Check for typos?")
+                    .setEphemeral(true)
+                    .queue();
         }
+    }
+
+    private EmbedBuilder buildEmbed(Guild guild, User user, Member member) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        String timeCreated = user.getTimeCreated().format(formatter);
+        String timeJoined = member.getTimeJoined().format(formatter);
+
+        EmbedBuilder builder = new EmbedBuilder();
+
+        builder.setTitle(user.getEffectiveName());
+        builder.setImage(user.getEffectiveAvatarUrl());
+
+
+        builder.addField(new MessageEmbed.Field("Joined Discord", timeCreated, true));
+        builder.addField(new MessageEmbed.Field("Joined " + guild.getName(), timeJoined, true));
+        return builder;
     }
 }

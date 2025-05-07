@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
  * This command creates an embed containing info on JBot's commands.
  */
 public class HelpCommand extends Command {
+
     /**
      * Creates an instance of the HelpCommand.
      * @param bot - Bot singleton to which the command is registered.
@@ -19,7 +20,7 @@ public class HelpCommand extends Command {
     public HelpCommand(JBot bot) {
         super(bot);
         this.name = "help";
-        this.description = "display information on JBot commands";
+        this.description = "display information on JBot commands.";
         this.type = "general";
         this.commandOptionData
                 .add(new OptionData(OptionType.STRING, "type", "the type of command to see info for", true)
@@ -30,7 +31,7 @@ public class HelpCommand extends Command {
     }
 
     /**
-     * Create an embed containing command info based on command type.
+     * Create an Embed containing command info based on command type.
      * @param event - Event trigger.
      */
     @Override
@@ -47,6 +48,6 @@ public class HelpCommand extends Command {
             }
         }
 
-        event.replyEmbeds(embed.build()).queue();
+        event.replyEmbeds(embed.build()).setEphemeral(true).queue();
     }
 }

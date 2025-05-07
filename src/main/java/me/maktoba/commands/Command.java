@@ -17,11 +17,9 @@ public abstract class Command {
     public String name;
     public String description;
     public String type;
-    public List<OptionData> optionData;
     public Permission requiredPermission; //this might need to be a list eventually
     public List<OptionData> commandOptionData;
     public List<SubcommandData> subCommands;
-
 
     public Command(JBot bot) {
         this.bot = bot;

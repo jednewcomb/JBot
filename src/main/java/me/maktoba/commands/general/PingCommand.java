@@ -13,10 +13,10 @@ public class PingCommand extends Command {
 
     /**
      * Creates an instance of the PingCommand.
-      * @param jbot - Bot singleton to which the command is registered.
+      * @param bot - Bot singleton to which the command is registered.
      */
-    public PingCommand(JBot jbot) {
-        super(jbot);
+    public PingCommand(JBot bot) {
+        super(bot);
         this.name = "ping";
         this.description = "Responds with \"Pong!\" and displays the bot latency.";
         this.type = "general";
