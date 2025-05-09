@@ -1,67 +1,45 @@
-<<<<<<< HEAD
-.gradle
+# === Gradle ===
+.gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-=======
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
->>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
 
-### IntelliJ IDEA ###
+# === IntelliJ IDEA ===
+.idea/
+*.iws
+*.iml
+*.ipr
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
-*.iws
-*.iml
-*.ipr
-<<<<<<< HEAD
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-=======
->>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
 
-### Eclipse ###
-.apt_generated
+# === Eclipse ===
+.apt_generated/
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
-.sts4-cache
-<<<<<<< HEAD
+.sts4-cache/
 bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-=======
->>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
 
-### NetBeans ###
+# === NetBeans ===
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-<<<<<<< HEAD
-=======
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
->>>>>>> 2a96f7afc68743454c462ea2565c2dbf076ba998
 
-### VS Code ###
+# === VS Code ===
 .vscode/
 
-### Mac OS ###
+# === macOS ===
 .DS_Store
 
-### Environment Files ###
+# === Environment Files ===
 .env
 
-### Todo list ###
+# === Miscellaneous ===
 todo.txt
+
