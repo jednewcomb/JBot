@@ -17,13 +17,13 @@ import java.util.Objects;
  * This command allows users with administrative permissions to create new channels
  * or categories for channels in the current server.
  */
-public class CreateChannelCommand extends Command {
+public class ChannelCreateCommand extends Command {
 
     /**
      * Creates an instance of the CreateChannelCommand.
      * @param bot - Bot singleton to which the command is registered.
      */
-    public CreateChannelCommand(JBot bot) {
+    public ChannelCreateCommand(JBot bot) {
         super(bot);
         this.name = "newchannel";
         this.description = "Creates a new channel in the server in the desired subcategory, or the default one";

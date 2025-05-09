@@ -7,23 +7,26 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 /**
- * Reverse just takes a user given string and reverses it, kind of niche
+ * Reverse just takes a user given string and reverses it, kind of niche.
  */
 public class ReverseCommand extends Command {
 
-    public ReverseCommand(JBot jbot) {
-        super(jbot);
+    /**
+     * Creates an instance of ReverseCommand.
+     * @param bot - Bot singleton.
+     */
+    public ReverseCommand(JBot bot) {
+        super(bot);
         this.name = "reverse";
         this.description = "reverse the given text";
         this.type = "text";
-        //maybe I want this to not require text and if the given text is null I just ping the user?
         this.commandOptionData.add(new OptionData(OptionType.STRING, "text", "text to be reversed", true));
 
     }
 
     /**
-     * Take the user given string and reverse it
-     * @param event
+     * Take the user given string and reverse it.
+     * @param event - Event trigger.
      */
     @Override
     public void execute(SlashCommandInteractionEvent event) {
@@ -35,6 +38,5 @@ public class ReverseCommand extends Command {
         }
 
         event.reply(sb.toString()).queue();
-
     }
 }

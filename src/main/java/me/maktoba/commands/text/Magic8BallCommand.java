@@ -10,12 +10,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class mimics the Magic 8 Ball toy, which holds creative
+ * responses to yes or no questions.
+ */
 public class Magic8BallCommand extends Command {
 
     private final List<String> responseList;
 
-    public Magic8BallCommand(JBot jbot) {
-        super(jbot);
+    /**
+     * Creates an instance of Magic8BallCommand.
+     * @param bot - Bot singleton.
+     */
+    public Magic8BallCommand(JBot bot) {
+        super(bot);
         this.name = "magic8ball";
         this.description = "Ask a question to the mighty magic 8 ball!";
         this.type = "text";
@@ -46,6 +54,11 @@ public class Magic8BallCommand extends Command {
                                           "Very doubtful");
     }
 
+    /**
+     * Respond to user's yes or no question with classic responses found
+     * on Magic8Ball toys.
+     * @param event
+     */
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.reply(event.getOption("question").getAsString()

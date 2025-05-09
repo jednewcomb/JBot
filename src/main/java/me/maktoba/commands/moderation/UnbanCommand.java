@@ -12,14 +12,13 @@ import java.util.Objects;
 
 public class UnbanCommand extends Command {
 
-    public UnbanCommand(JBot jbot) {
-        super(jbot);
+    public UnbanCommand(JBot bot) {
+        super(bot);
         this.name = "unban";
         this.description = "unban specified user";
         this.type = "moderation";
         this.requiredPermission = Permission.BAN_MEMBERS;//this might be right
         this.commandOptionData.add(new OptionData(OptionType.USER, "banned", "banned user", true));
-
     }
 
     @Override

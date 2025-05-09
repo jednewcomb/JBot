@@ -10,9 +10,9 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.Objects;
 
-public class NickNameCommand extends Command {
+public class NicknameCommand extends Command {
 
-    public NickNameCommand(JBot bot) {
+    public NicknameCommand(JBot bot) {
         super(bot);
         this.name = "nickname";
         this.description = "give specified user a nickname for this server";

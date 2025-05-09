@@ -6,8 +6,8 @@ import me.maktoba.commands.general.PingCommand;
 import me.maktoba.commands.general.ServerInfoCommand;
 import me.maktoba.commands.general.UserInfoCommand;
 import me.maktoba.commands.moderation.BanCommand;
-import me.maktoba.commands.moderation.CreateChannelCommand;
-import me.maktoba.commands.moderation.NickNameCommand;
+import me.maktoba.commands.moderation.ChannelCreateCommand;
+import me.maktoba.commands.moderation.NicknameCommand;
 import me.maktoba.commands.moderation.UnbanCommand;
 import me.maktoba.commands.text.*;
 import me.maktoba.commands.music.*;
@@ -24,10 +24,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 /**
- * The CommandRegistry class is responsible for managing and registering slash commands
- * for the bot. It maintains a list and map of commands, allowing for easy retrieval
- * and execution based on user interactions. This class simplifies the process of adding
- * commands to the bot and ensures that commands are registered on guild startup.
+ * The CommandRegistry class manges and registers slash commands for the bot. It
+ * maintains a list and map of commands, allowing for easy retrieval and execution
+ * based on user interactions. This class simplifies the process of adding commands
+ * to the bot and ensures that commands are registered on guild startup.
  */
 public class CommandRegistry extends ListenerAdapter {
 
@@ -60,8 +60,8 @@ public class CommandRegistry extends ListenerAdapter {
 
                 new BanCommand(bot),
                 new UnbanCommand(bot),
-                new CreateChannelCommand(bot),
-                new NickNameCommand(bot));
+                new ChannelCreateCommand(bot),
+                new NicknameCommand(bot));
     }
 
     /**

@@ -13,8 +13,8 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
  * for poking fun at your friends or memeing silly quotes.
  */
 public class SarcasmCommand extends Command {
-    public SarcasmCommand(JBot jbot) {
-        super(jbot);
+    public SarcasmCommand(JBot bot) {
+        super(bot);
         this.name = "sarcasm";
         this.description = "capitalizes every other letter to portray sarcasm";
         this.type = "text";
@@ -22,8 +22,8 @@ public class SarcasmCommand extends Command {
     }
 
     /**
-     * I think that it looks better when the second letter begins the sequence
-     * @param event
+     * Create the mutated String.
+     * @param event - Event trigger.
      */
     @Override
     public void execute(SlashCommandInteractionEvent event) {
@@ -37,5 +37,4 @@ public class SarcasmCommand extends Command {
 
         event.reply(sb.toString()).queue();
     }
-
 }

@@ -50,19 +50,25 @@ public class UserInfoCommand extends Command {
         }
     }
 
+    /**
+     * Helper method to build Embed. User and Member are both used on the
+     * same member as they each have useful methods associated with them.
+     * @param guild - The Guild.
+     * @param user - User in Guild
+     * @param member - Member in Guild
+     * @return a formatted Embed with all the information found above.
+     */
     private EmbedBuilder buildEmbed(Guild guild, User user, Member member) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         String timeCreated = user.getTimeCreated().format(formatter);
         String timeJoined = member.getTimeJoined().format(formatter);
 
         EmbedBuilder builder = new EmbedBuilder();
-
         builder.setTitle(user.getEffectiveName());
         builder.setImage(user.getEffectiveAvatarUrl());
-
-
         builder.addField(new MessageEmbed.Field("Joined Discord", timeCreated, true));
         builder.addField(new MessageEmbed.Field("Joined " + guild.getName(), timeJoined, true));
+
         return builder;
     }
 }
