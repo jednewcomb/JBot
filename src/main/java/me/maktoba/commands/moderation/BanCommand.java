@@ -2,6 +2,7 @@ package me.maktoba.commands.moderation;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
+import me.maktoba.handlers.ModerationHandler;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -11,9 +12,10 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class BanCommand extends Command {
+
+    ModerationHandler handler = new ModerationHandler();
 
     public BanCommand(JBot bot) {
         super(bot);
@@ -31,10 +33,13 @@ public class BanCommand extends Command {
                               .addChoice("other inappropriate conduct", "inappropriate"));
     }
 
+    /**
+     *
+     * @param event - Event trigger.
+     */
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        User target = Objects.requireNonNull(event.getOption("user")).getAsUser();
-        Guild guild = event.getGuild();
+        User target = event.getOption("user").getAsUser();
 
         // check that command user isn't banning themselves
         Member member = event.getMember();
@@ -45,26 +50,13 @@ public class BanCommand extends Command {
             return;
         }
 
-        // check that ban target is in guild
+        Guild guild = event.getGuild();
         Member targetMember = Objects.requireNonNull(event.getOption("user")).getAsMember();
-        if (!Objects.requireNonNull(event.getGuild()).getMembers().contains(targetMember)) {
-            event.reply("User not found in server.").setEphemeral(true).queue();
+        if (!Objects.requireNonNull(guild).getMembers().contains(targetMember)) {
+            handler.handleNotFound(event, guild, targetMember);
             return;
         }
 
-        int numDays = 7;
-        String reason = Objects.requireNonNull(event.getOption("reason")).getAsString();
-        String content = "You have been banned from " + event.getGuild().getName()
-                       + " due to inappropriate conduct. Reason: " + reason;
-
-        // Try to send a user a private message upon ban notifying them.
-        target.openPrivateChannel()
-                  .flatMap(channel -> channel.sendMessage(content))
-                  .queue(/*success vs failure lambda code could go here?*/);
-
-        Objects.requireNonNull(event.getGuild()).ban(target, numDays, TimeUnit.DAYS).queue();
-        event.reply("User " + target.getGlobalName() + " was banned")
-                .setEphemeral(true)
-                .queue();
+        handler.carryOutBan(event, guild, target);
     }
 }
