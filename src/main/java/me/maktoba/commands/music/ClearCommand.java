@@ -2,7 +2,7 @@ package me.maktoba.commands.music;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
-import me.maktoba.handlers.TrackScheduler;
+import me.maktoba.handlers.TrackHandler;
 import me.maktoba.listeners.MusicListener;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -37,7 +37,7 @@ public class ClearCommand extends Command {
         if (music == null) return;
 
         Guild guild = event.getGuild();
-        TrackScheduler scheduler = music.getGuildMusicManager(guild).getTrackScheduler();
+        TrackHandler scheduler = music.getGuildMusicManager(guild).getTrackScheduler();
 
         if (scheduler.getQueue().isEmpty()) {
             event.reply("Queue is currently empty.")

@@ -5,7 +5,7 @@ import com.sedmelluq.discord.lavaplayer.tools.ThumbnailTools;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
-import me.maktoba.handlers.TrackScheduler;
+import me.maktoba.handlers.TrackHandler;
 import me.maktoba.listeners.MusicListener;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -41,7 +41,7 @@ public class NowPlayingCommand extends Command {
         if (music == null) return;
 
         Guild guild = event.getGuild();
-        TrackScheduler scheduler = music.getGuildMusicManager(guild).getTrackScheduler();
+        TrackHandler scheduler = music.getGuildMusicManager(guild).getTrackScheduler();
 
         if (!scheduler.isPlaying()) {
             event.reply("Player is not currently playing a track.")
@@ -61,7 +61,7 @@ public class NowPlayingCommand extends Command {
      * @param scheduler - TrackScheduler which holds our MusicPlayer.
      * @return - EmbedBuilder with info on the current track.
      */
-    private EmbedBuilder buildEmbed(TrackScheduler scheduler) {
+    private EmbedBuilder buildEmbed(TrackHandler scheduler) {
         AudioTrackInfo info = scheduler.getPlayer().getPlayingTrack().getInfo();
         String url = info.uri;
         String thumbnail = ThumbnailTools.getYouTubeThumbnail(JsonBrowser.NULL_BROWSER, info.identifier);

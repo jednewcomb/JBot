@@ -4,18 +4,18 @@ import net.dv8tion.jda.api.entities.Guild;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
-public class GuildMusicManager {
-    private TrackScheduler trackScheduler;
+public class GuildMusicHandler {
+    private TrackHandler trackScheduler;
     private MusicHandler musicHandler;
 
-    public GuildMusicManager(AudioPlayerManager manager, Guild guild) {
+    public GuildMusicHandler(AudioPlayerManager manager, Guild guild) {
         AudioPlayer player = manager.createPlayer();
-        trackScheduler = new TrackScheduler(player);
+        trackScheduler = new TrackHandler(player);
         player.addListener(trackScheduler);
         musicHandler = new MusicHandler(player);
     }
 
-    public TrackScheduler getTrackScheduler() {
+    public TrackHandler getTrackScheduler() {
         return trackScheduler;
     }
 

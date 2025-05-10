@@ -28,7 +28,7 @@ public class ModerationHandler {
         member.modifyNickname(member.getEffectiveName()).queue();
     }
 
-    public void handleNotFound(SlashCommandInteractionEvent event, Guild guild, Member targetMember) {
+    public void handleMemberNotFound(SlashCommandInteractionEvent event, Guild guild, Member targetMember) {
         event.replyFormat(NOT_FOUND, targetMember, guild.getName())
                 .setEphemeral(true)
                 .queue();
@@ -48,7 +48,7 @@ public class ModerationHandler {
             target.openPrivateChannel()
                     .flatMap(channel -> channel.sendMessage(content))
                     .queue();
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             logger.info("Could not private message the user.");
         }
     }

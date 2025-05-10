@@ -2,7 +2,7 @@ package me.maktoba.commands.music;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
-import me.maktoba.handlers.TrackScheduler;
+import me.maktoba.handlers.TrackHandler;
 import me.maktoba.listeners.MusicListener;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
@@ -34,7 +34,7 @@ public class PauseCommand extends Command {
         if (music == null) return;
 
         Guild guild = event.getGuild();
-        TrackScheduler scheduler = music.getGuildMusicManager(guild).getTrackScheduler();
+        TrackHandler scheduler = music.getGuildMusicManager(guild).getTrackScheduler();
 
         if (scheduler.isPaused()) {
             event.reply("Player is currently paused! Use /play to resume playback.")

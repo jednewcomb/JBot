@@ -11,7 +11,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import dev.lavalink.youtube.clients.TvHtml5Embedded;
 import io.github.cdimascio.dotenv.Dotenv;
-import me.maktoba.handlers.GuildMusicManager;
+import me.maktoba.handlers.GuildMusicHandler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -34,9 +34,10 @@ public class MusicListener extends ListenerAdapter {
     static final Logger logger = LoggerFactory.getLogger(MusicListener.class);
     private static MusicListener INSTANCE;
     private final AudioPlayerManager playerManager;
-    private final Map<Long, GuildMusicManager> guildMusicManagers;
+    private final Map<Long, GuildMusicHandler> guildMusicManagers;
     public final YoutubeAudioSourceManager ytSourceManager;
 
+    //TODO: We need to make this work for all the sources we've registered.
     /**
      * Registers audio source managers for YouTube, Vimeo, BandCamp, and SoundCloud.
      */
@@ -82,9 +83,9 @@ public class MusicListener extends ListenerAdapter {
      * @param guild the guild for which the music manager is requested
      * @return the GuildMusicManager for the given guild
      */
-    public GuildMusicManager getGuildMusicManager(Guild guild) {
+    public GuildMusicHandler getGuildMusicManager(Guild guild) {
         return guildMusicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
-            GuildMusicManager musicManager = new GuildMusicManager(playerManager, guild);
+            GuildMusicHandler musicManager = new GuildMusicHandler(playerManager, guild);
 
             guild.getAudioManager().setSendingHandler(musicManager.getAudioForwarder());
             return musicManager;
@@ -99,7 +100,7 @@ public class MusicListener extends ListenerAdapter {
      * @param trackURL the URL of the track or playlist to be loaded
      */
     public void loadTrack(SlashCommandInteractionEvent event, Guild guild, String trackURL) {
-        GuildMusicManager guildMusicManager = getGuildMusicManager(guild);
+        GuildMusicHandler guildMusicManager = getGuildMusicManager(guild);
 
         playerManager.loadItemOrdered(guildMusicManager, trackURL, new AudioLoadResultHandler() {
             @Override

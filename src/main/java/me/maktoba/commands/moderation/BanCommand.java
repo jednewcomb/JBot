@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class BanCommand extends Command {
 
-    ModerationHandler handler = new ModerationHandler();
+    ModerationHandler modHandler = new ModerationHandler();
 
     public BanCommand(JBot bot) {
         super(bot);
@@ -53,10 +53,10 @@ public class BanCommand extends Command {
         Guild guild = event.getGuild();
         Member targetMember = Objects.requireNonNull(event.getOption("user")).getAsMember();
         if (!Objects.requireNonNull(guild).getMembers().contains(targetMember)) {
-            handler.handleNotFound(event, guild, targetMember);
+            modHandler.handleMemberNotFound(event, guild, targetMember);
             return;
         }
 
-        handler.carryOutBan(event, guild, target);
+        modHandler.carryOutBan(event, guild, target);
     }
 }

@@ -11,6 +11,7 @@ import me.maktoba.commands.moderation.NicknameCommand;
 import me.maktoba.commands.moderation.UnbanCommand;
 import me.maktoba.commands.text.*;
 import me.maktoba.commands.music.*;
+import me.maktoba.handlers.CommandCooldownHandler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
@@ -33,6 +34,7 @@ public class CommandRegistry extends ListenerAdapter {
 
     public static List<Command> commandList = new ArrayList<>();
     public static Map<String, Command> commandMap = new HashMap<>();
+    private CommandCooldownHandler cdHandler;
 
     /**
      * Sends each of our Commands to be Mapped to the List and Map for later retrieval.
@@ -86,26 +88,30 @@ public class CommandRegistry extends ListenerAdapter {
      */
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         Command cmd = commandMap.get(event.getName());
-
-        //maybe add some more null checks
+        Guild guild = event.getGuild();
+        Member member = event.getMember();
 
         //check that bot has correct permissions to carry out command
         if (cmd.requiresPermission()) {
-            Guild guild = event.getGuild();
             if (!Objects.requireNonNull(guild).getBotRole().hasPermission(cmd.requiredPermission)) {
                 event.reply("I do not have the necessary permissions to use that command").setEphemeral(true).queue();
                 return;
             }
 
             //check that member has correct permissions/role if that command requires it
-            Member member = event.getMember();
             if (!Objects.requireNonNull(member).hasPermission(cmd.requiredPermission)) {
                 event.reply("You lack the necessary permissions to use that command").setEphemeral(true).queue();
                 return;
             }
         }
 
+        if (CommandCooldownHandler.memberHasCooldown(member)) {
+            event.reply("Wait a moment to use more commands.").setEphemeral(true).queue();
+            return;
+        }
+
         cmd.execute(event);
+        CommandCooldownHandler.startCooldown(member);
     }
 
     /**

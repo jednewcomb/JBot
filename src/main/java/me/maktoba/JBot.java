@@ -6,6 +6,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import me.maktoba.listeners.GuildListener;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -51,8 +52,23 @@ public class JBot {
     public static void main(String[] args) {
         try {
             new JBot();
-        } catch(Exception e) {
-            System.err.println("invalid token received -> " + e.getMessage());
+        }
+
+        catch(LoginException ex) {
+            System.err.printf("Ensure that you are using the correct token! %s.", ex.getMessage());
+            System.exit(1);
+        }
+
+        catch(IllegalArgumentException ex) {
+            System.err.printf("Configuration issue. " +
+                    "JBot requires no args to be used %s.", ex.getMessage());
+            System.exit(1);
+        }
+
+        catch(ErrorResponseException ex) {
+            System.err.printf("Invalid response returned. Check internet connection %s", ex.getMessage());
+            System.exit(1);
         }
     }
+
 }

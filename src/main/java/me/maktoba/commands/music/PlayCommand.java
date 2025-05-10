@@ -2,7 +2,7 @@ package me.maktoba.commands.music;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
-import me.maktoba.handlers.TrackScheduler;
+import me.maktoba.handlers.TrackHandler;
 import me.maktoba.listeners.MusicListener;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -61,7 +61,7 @@ public class PlayCommand extends Command {
         AudioManager manager = event.getGuild().getAudioManager();
         manager.openAudioConnection(userChannel);
 
-        TrackScheduler scheduler = music.getGuildMusicManager(event.getGuild()).getTrackScheduler();
+        TrackHandler scheduler = music.getGuildMusicManager(event.getGuild()).getTrackScheduler();
         if (scheduler.getQueue().size() > 100) {
             event.reply("Queue can be no greater than 100 songs.").queue();
             return;
@@ -125,7 +125,7 @@ public class PlayCommand extends Command {
      * @param scheduler - TrackScheduler which controls the flow of music.
      * @return - boolean telling is whether the music is paused or not.
      */
-    private boolean checkPaused(TrackScheduler scheduler) {
+    private boolean checkPaused(TrackHandler scheduler) {
         return scheduler.isPaused();
     }
 }
