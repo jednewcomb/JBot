@@ -3,6 +3,7 @@ package me.maktoba.commands.general;
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
 import me.maktoba.commands.CommandRegistry;
+import me.maktoba.util.EmbedUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -39,15 +40,14 @@ public class HelpCommand extends Command {
         String choice = event.getOption("type").getAsString();
         choice = choice.substring(0, 1).toUpperCase() + choice.substring(1);
 
-        EmbedBuilder embed = new EmbedBuilder();
-        embed.setTitle(choice + " Commands");
+        EmbedBuilder builder = EmbedUtil.createSuccessEmbed(choice + " Commands");
 
         for (Command cmd : CommandRegistry.commandList) {
             if (cmd.type.equals(choice.toLowerCase())) {
-                embed.addField("/" + cmd.name, cmd.description, false);
+                builder.addField("/" + cmd.name, cmd.description, false);
             }
         }
 
-        event.replyEmbeds(embed.build()).setEphemeral(true).queue();
+        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
     }
 }

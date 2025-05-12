@@ -1,5 +1,7 @@
 package me.maktoba.handlers;
 
+import me.maktoba.util.EmbedUtil;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -29,17 +31,34 @@ public class ModerationHandler {
     }
 
     public void handleMemberNotFound(SlashCommandInteractionEvent event, Guild guild, Member targetMember) {
-        event.replyFormat(NOT_FOUND, targetMember, guild.getName())
-                .setEphemeral(true)
-                .queue();
+        EmbedBuilder builder = EmbedUtil.createErrorEmbed(
+                String.format(
+                        NOT_FOUND, targetMember, guild.getName()
+                )
+        );
+        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
     }
 
     public void carryOutBan(SlashCommandInteractionEvent event, Guild guild, User target) {
         attemptMessageBannedUser(event, guild.getName(), target);
         Objects.requireNonNull(guild).ban(target, 7, TimeUnit.DAYS).queue();
-        event.replyFormat(GUILD_OUT, target.getEffectiveName()).queue();
+
+        EmbedBuilder builder = EmbedUtil.createSuccessEmbed(
+                String.format(
+                    GUILD_OUT, target.getEffectiveName()
+                )
+        );
+
+        event.replyEmbeds(builder.build()).queue();
     }
 
+    /**
+     * This isn't always going to work because there are many variables deciding if
+     * JBot can send a message to a user or not.
+     * @param event
+     * @param guildName
+     * @param target
+     */
     private void attemptMessageBannedUser(SlashCommandInteractionEvent event, String guildName, User target) {
         String reason = event.getOption("reason").getAsString();
         String content = String.format(USER_OUT, guildName, reason);

@@ -2,6 +2,8 @@ package me.maktoba.commands.text;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
+import me.maktoba.util.EmbedUtil;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -55,13 +57,14 @@ public class Magic8BallCommand extends Command {
     }
 
     /**
-     * Respond to user's yes or no question with classic responses found
-     * on Magic8Ball toys.
-     * @param event
+     * Respond to user's yes or no question with classic responses found in Magic8Ball toys.
+     * @param event - Event trigger.
      */
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        event.reply(event.getOption("question").getAsString()
-                + "\n" + this.responseList.get(new Random().nextInt(this.responseList.size()) + 1)).queue();
+        String reply = responseList.get(new Random().nextInt(responseList.size()) + 1);
+
+        EmbedBuilder builder = EmbedUtil.createSuccessEmbed(reply);
+        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
     }
 }

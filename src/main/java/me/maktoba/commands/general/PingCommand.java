@@ -2,6 +2,9 @@ package me.maktoba.commands.general;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
+import me.maktoba.util.EmbedUtil;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 /**
@@ -29,6 +32,9 @@ public class PingCommand extends Command {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         long time = event.getJDA().getGatewayPing();
-        event.replyFormat("Pong! %d ms", time).queue();
+        EmbedBuilder builder = EmbedUtil.
+                createSuccessEmbed(String.format("Pong! %d ms", time));
+
+        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
     }
 }

@@ -2,6 +2,7 @@ package me.maktoba.commands.general;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
+import me.maktoba.util.EmbedUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -54,15 +55,13 @@ public class ServerInfoCommand extends Command {
      * @return a formatted Embed with all the information found above.
      */
     private EmbedBuilder buildEmbed(Guild guild, String owner, String memberCount, String createDate) {
-        EmbedBuilder builder = new EmbedBuilder();
-        builder.setTitle(guild.getName());
-        builder.setImage(guild.getIconUrl());
-        builder.setColor(guild.getOwner().getColor());
 
-        builder.addField(new MessageEmbed.Field("Owner", owner, true));
-        builder.addField(new MessageEmbed.Field("Members", memberCount, true));
-        builder.addField(new MessageEmbed.Field("Created", createDate, false));
-        return builder;
+        return EmbedUtil.createSuccessEmbed("**"+guild.getName()+"**")
+                .setImage(guild.getIconUrl())
+                .addField(new MessageEmbed.Field("Owner", owner, true))
+                .addField(new MessageEmbed.Field("Members", memberCount, true))
+                .addField(new MessageEmbed.Field("Created", createDate, false));
+
     }
 
 }

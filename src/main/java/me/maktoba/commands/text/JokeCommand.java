@@ -3,6 +3,8 @@ package me.maktoba.commands.text;
 import com.github.codeboy.jokes4j.Jokes4J;
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
+import me.maktoba.util.EmbedUtil;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 /**
@@ -32,6 +34,7 @@ public class JokeCommand extends Command {
      */
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        event.reply(Jokes4J.getJokeString()).queue();
+        EmbedBuilder builder = EmbedUtil.createSuccessEmbed(Jokes4J.getJokeString());
+        event.replyEmbeds(builder.build()).queue();
     }
 }

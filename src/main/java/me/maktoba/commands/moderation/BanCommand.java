@@ -3,6 +3,8 @@ package me.maktoba.commands.moderation;
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
 import me.maktoba.handlers.ModerationHandler;
+import me.maktoba.util.EmbedUtil;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -44,9 +46,7 @@ public class BanCommand extends Command {
         // check that command user isn't banning themselves
         Member member = event.getMember();
         if (Objects.requireNonNull(member).getUser() == target) {
-            event.reply("You can't ban yourself, even if you really want to.")
-                    .setEphemeral(true)
-                    .queue();
+            event.replyEmbeds(buildErrorEmbed().build()).setEphemeral(true).queue();
             return;
         }
 
@@ -58,5 +58,9 @@ public class BanCommand extends Command {
         }
 
         modHandler.carryOutBan(event, guild, target);
+    }
+
+    private EmbedBuilder buildErrorEmbed() {
+        return EmbedUtil.createErrorEmbed("**You can't ban yourself!**");
     }
 }

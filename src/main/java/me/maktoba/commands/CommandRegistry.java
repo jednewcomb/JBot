@@ -12,6 +12,8 @@ import me.maktoba.commands.moderation.UnbanCommand;
 import me.maktoba.commands.text.*;
 import me.maktoba.commands.music.*;
 import me.maktoba.handlers.CommandCooldownHandler;
+import me.maktoba.util.EmbedUtil;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
@@ -94,19 +96,30 @@ public class CommandRegistry extends ListenerAdapter {
         //check that bot has correct permissions to carry out command
         if (cmd.requiresPermission()) {
             if (!Objects.requireNonNull(guild).getBotRole().hasPermission(cmd.requiredPermission)) {
-                event.reply("I do not have the necessary permissions to use that command").setEphemeral(true).queue();
+
+                EmbedBuilder builder =
+                        EmbedUtil.createErrorEmbed("I don't have the necessary permissions to use that command.");
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+
                 return;
             }
 
             //check that member has correct permissions/role if that command requires it
             if (!Objects.requireNonNull(member).hasPermission(cmd.requiredPermission)) {
-                event.reply("You lack the necessary permissions to use that command").setEphemeral(true).queue();
+
+                EmbedBuilder builder =
+                        EmbedUtil.createErrorEmbed("You don't have the necessary permissions to use that command.");
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+
                 return;
             }
         }
 
         if (CommandCooldownHandler.memberHasCooldown(member)) {
-            event.reply("Wait a moment to use more commands.").setEphemeral(true).queue();
+
+            EmbedBuilder builder =
+                    EmbedUtil.createErrorEmbed("Wait a moment to user more commands.");
+            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             return;
         }
 

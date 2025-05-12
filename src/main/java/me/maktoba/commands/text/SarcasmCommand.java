@@ -2,6 +2,8 @@ package me.maktoba.commands.text;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
+import me.maktoba.util.EmbedUtil;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -35,6 +37,7 @@ public class SarcasmCommand extends Command {
             sb.append((i % 2) != 0 ? Character.toUpperCase(text.charAt(i)) : text.charAt(i));
         }
 
-        event.reply(sb.toString()).queue();
+        EmbedBuilder builder = EmbedUtil.createSuccessEmbed(sb.toString());
+        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
     }
 }

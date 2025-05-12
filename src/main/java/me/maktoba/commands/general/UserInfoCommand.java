@@ -2,6 +2,7 @@ package me.maktoba.commands.general;
 
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
+import me.maktoba.util.EmbedUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.Guild;
@@ -41,12 +42,10 @@ public class UserInfoCommand extends Command {
         Member member = event.getOption("user").getAsMember();
 
         if (guild.isMember(user)) {
-            event.replyEmbeds(buildEmbed(guild, user, member).build()).setEphemeral(true).queue();
+            event.replyEmbeds(buildSuccessEmbed(guild, user, member).build()).setEphemeral(true).queue();
         }
         else {
-            event.reply("User not found in this server. Check for typos?")
-                    .setEphemeral(true)
-                    .queue();
+            event.replyEmbeds(buildErrorEmbed(member).build()).setEphemeral(true).queue();
         }
     }
 
@@ -54,21 +53,33 @@ public class UserInfoCommand extends Command {
      * Helper method to build Embed. User and Member are both used on the
      * same member as they each have useful methods associated with them.
      * @param guild - The Guild.
-     * @param user - User in Guild
-     * @param member - Member in Guild
+     * @param user - User in Guild.
+     * @param member - Member in Guild.
      * @return a formatted Embed with all the information found above.
      */
-    private EmbedBuilder buildEmbed(Guild guild, User user, Member member) {
+    private EmbedBuilder buildSuccessEmbed(Guild guild, User user, Member member) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         String timeCreated = user.getTimeCreated().format(formatter);
         String timeJoined = member.getTimeJoined().format(formatter);
 
-        EmbedBuilder builder = new EmbedBuilder();
-        builder.setTitle(user.getEffectiveName());
-        builder.setImage(user.getEffectiveAvatarUrl());
-        builder.addField(new MessageEmbed.Field("Joined Discord", timeCreated, true));
-        builder.addField(new MessageEmbed.Field("Joined " + guild.getName(), timeJoined, true));
+        return EmbedUtil.createSuccessEmbed(user.getEffectiveName())
+                .setImage(user.getEffectiveAvatarUrl())
+                .addField(new MessageEmbed.Field("Joined Discord", timeCreated, true))
+                .addField(new MessageEmbed.Field("Joined " + guild.getName(), timeJoined, true));
+    }
 
-        return builder;
+    /**
+     * Build failure Embed if we find the Member isn't in the guild. This
+     * is usually due to a discrepancy in caching because the command won't
+     * allow for you to use it with Guild Members it already hasn't found.
+     * @param member - Who we're searching for.
+     * @return - Embed informing user the desired Member wasn't found.
+     */
+    private EmbedBuilder buildErrorEmbed(Member member) {
+        return EmbedUtil.createErrorEmbed(
+                String.format(
+                    "User %s not found in this server.", member.getEffectiveName()
+                )
+        );
     }
 }

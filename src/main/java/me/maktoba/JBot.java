@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import me.maktoba.commands.CommandRegistry;
 import io.github.cdimascio.dotenv.Dotenv;
 import me.maktoba.listeners.GuildListener;
+import me.maktoba.listeners.JoinLeaveListener;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -31,14 +32,15 @@ public class JBot {
                               GatewayIntent.GUILD_MESSAGES,
                               GatewayIntent.GUILD_PRESENCES,
                               GatewayIntent.GUILD_VOICE_STATES,
-                              GatewayIntent.GUILD_MODERATION);
+                              GatewayIntent.GUILD_MODERATION,
+                              GatewayIntent.DIRECT_MESSAGES);
 
         //cache all users on startup
         builder.setMemberCachePolicy(MemberCachePolicy.ALL);
         builder.setChunkingFilter(ChunkingFilter.ALL);
 
         //add EventListeners to builder from registry
-        builder.addEventListeners(new CommandRegistry(this), new GuildListener());
+        builder.addEventListeners(new CommandRegistry(this), new GuildListener(), new JoinLeaveListener());
 
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.watching("JBot"));
