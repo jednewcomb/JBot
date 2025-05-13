@@ -80,8 +80,8 @@ public class MusicListener extends ListenerAdapter {
      * Retrieves the GuildMusicManager for the specified guild, creating it if it does not exist.
      * Each guild has a unique GuildMusicManager that manages its music playback independently.
      *
-     * @param guild the guild for which the music manager is requested
-     * @return the GuildMusicManager for the given guild
+     * @param guild the guild for which the music manager is requested.
+     * @return the GuildMusicManager for the given guild.
      */
     public GuildMusicHandler getGuildMusicManager(Guild guild) {
         return guildMusicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
@@ -96,13 +96,18 @@ public class MusicListener extends ListenerAdapter {
      * Adds a track to the queue for the specified guild by its URL. If the track is part of a playlist,
      * all tracks in the playlist are added to the queue.
      *
-     * @param guild the guild where the track will be queued
-     * @param trackURL the URL of the track or playlist to be loaded
+     * @param guild the guild where the track will be queued.
+     * @param trackURL the URL of the track or playlist to be loaded.
      */
     public void loadTrack(SlashCommandInteractionEvent event, Guild guild, String trackURL) {
         GuildMusicHandler guildMusicManager = getGuildMusicManager(guild);
 
         playerManager.loadItemOrdered(guildMusicManager, trackURL, new AudioLoadResultHandler() {
+
+            /**
+             * Fires upon a track successfully loading.
+             * @param track The loaded track.
+             */
             @Override
             public void trackLoaded(AudioTrack track) {
                 guildMusicManager.getTrackScheduler().queue(track);
@@ -112,7 +117,7 @@ public class MusicListener extends ListenerAdapter {
             /**
              * Search queries on YouTube that include "ytsearch:" load as playlists
              * because a single query can result in multiple tracks (I assume due to
-             * similarly named Songs or Artists)
+             * similarly named Songs or Artists).
              */
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
@@ -129,6 +134,9 @@ public class MusicListener extends ListenerAdapter {
                 }
             }
 
+            /**
+             *
+             */
             @Override
             public void noMatches() {
                 logger.info("No matches found!");

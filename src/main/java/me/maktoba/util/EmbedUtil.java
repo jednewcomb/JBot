@@ -7,7 +7,7 @@ import java.time.Instant;
 
 public class EmbedUtil {
 
-    //TODO: Skipped implementation in all music commands and ChannelCreateCommand for now.
+    //TODO: Skipped implementation in ChannelCreateCommand for now.
 
     public static EmbedBuilder createDefaultEmbed() {
         return new EmbedBuilder()

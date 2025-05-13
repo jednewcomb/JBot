@@ -2,11 +2,13 @@ package me.maktoba.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.tools.JsonBrowser;
 import com.sedmelluq.discord.lavaplayer.tools.ThumbnailTools;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import me.maktoba.JBot;
 import me.maktoba.commands.Command;
 import me.maktoba.handlers.TrackHandler;
 import me.maktoba.listeners.MusicListener;
+import me.maktoba.util.TimeUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -62,13 +64,15 @@ public class NowPlayingCommand extends Command {
      * @return - EmbedBuilder with info on the current track.
      */
     private EmbedBuilder buildEmbed(TrackHandler scheduler) {
-        AudioTrackInfo info = scheduler.getPlayer().getPlayingTrack().getInfo();
+        AudioTrack track = scheduler.getPlayer().getPlayingTrack();
+        AudioTrackInfo info = track.getInfo();
         String url = info.uri;
         String thumbnail = ThumbnailTools.getYouTubeThumbnail(JsonBrowser.NULL_BROWSER, info.identifier);
+        String formatted = TimeUtil.formatMillis(track.getDuration());
 
         return new EmbedBuilder()
                 .setTitle(info.title)
-                .setDescription(url)
+                .setDescription(url + "duration: '" + formatted + "'")
                 .setImage(thumbnail)
                 .setColor(Color.RED);
     }

@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * CommandCooldownHandler marks when a Guild Member has used a Command
- * by taking the current time and adding 5 seconds. If that time hasn't
+ * by taking the current time and adding 3 seconds. If that time hasn't
  * yet been reached and that Member has attempted to run another command,
  * we ping them they have a "cooldown".
  */
@@ -19,7 +19,7 @@ public class CommandCooldownHandler {
     private static final long COOLDOWN_DURATION_MS = 3000;
 
     /**
-     * Map the Member and the current time plus 5 seconds for later comparison.
+     * Map the Member and the current time plus 3 seconds for later comparison.
      * @param member - Member who used the command.
      */
     public static void startCooldown(Member member) {
@@ -28,7 +28,7 @@ public class CommandCooldownHandler {
     }
 
     /**
-     * Check if 5 seconds have passed since the Member has used a command.
+     * Check if 3 seconds have passed since the Member has used a command.
      * @param member - Member who used the command.
      * @return - boolean denoting whether this member is on cooldown.
      */
