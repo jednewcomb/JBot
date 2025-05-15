@@ -7,8 +7,6 @@ import java.time.Instant;
 
 public class EmbedUtil {
 
-    //TODO: Skipped implementation in ChannelCreateCommand for now.
-
     public static EmbedBuilder createDefaultEmbed() {
         return new EmbedBuilder()
                 .setColor(Color.CYAN)

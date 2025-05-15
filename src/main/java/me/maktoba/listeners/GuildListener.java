@@ -12,10 +12,18 @@ import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdateNicknameE
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * GuildListener adds functionality related to certain events that take place
+ * in the server.
+ */
 public class GuildListener extends ListenerAdapter {
 
     private final ModerationHandler modHandler = new ModerationHandler();
 
+    /**
+     * Reacts to new users joining the guild with a welcoming message. WHOLESOME!
+     * @param event - Event Trigger.
+     */
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
         Member member = event.getMember();
@@ -25,12 +33,20 @@ public class GuildListener extends ListenerAdapter {
         sendToDefaultChannel(event.getGuild(), "👋 Welcome!", welcomeMsg);
     }
 
+    /**
+     * Reacts to users leaving the guild with a farewell message.
+     * @param event - Event Trigger.
+     */
     @Override
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
         String goodbyeMsg = "😢 **" + event.getUser().getName() + "** has left the server.";
         sendToDefaultChannel(event.getGuild(), "Goodbye!", goodbyeMsg);
     }
 
+    /**
+     * Upon JBot joining a guild, thank the user for inviting!
+     * @param event - Event Trigger.
+     */
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
         String botName = event.getJDA().getSelfUser().getName();
@@ -38,6 +54,10 @@ public class GuildListener extends ListenerAdapter {
         sendToDefaultChannel(event.getGuild(), "🤖 JBot has arrived!", message);
     }
 
+    /**
+     * Acknowledge someone's nickname change.
+     * @param event - Event Trigger.
+     */
     @Override
     public void onGuildMemberUpdateNickname(@NotNull GuildMemberUpdateNicknameEvent event) {
         String oldNick = event.getOldNickname() == null ? event.getUser().getName() : event.getOldNickname();
@@ -47,6 +67,10 @@ public class GuildListener extends ListenerAdapter {
         sendToDefaultChannel(event.getGuild(), "Nickname Changed", msg);
     }
 
+    /**
+     * Acknowledge server boost.
+     * @param event - Event Trigger.
+     */
     @Override
     public void onGuildMemberUpdateBoostTime(@NotNull GuildMemberUpdateBoostTimeEvent event) {
         Member member = event.getMember();
@@ -60,7 +84,12 @@ public class GuildListener extends ListenerAdapter {
         }
     }
 
-    // Utility method to handle channel sending with fallback and embed formatting
+    /**
+     * Create embed to be sent to default channel.
+     * @param guild - Guild which triggered event.
+     * @param title - Embed title.
+     * @param description - Description for embed.
+     */
     private void sendToDefaultChannel(Guild guild, String title, String description) {
         TextChannel channel = GuildUtil.getDefaultTextChannel(guild);
         if (channel != null) {
