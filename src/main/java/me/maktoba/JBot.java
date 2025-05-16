@@ -5,6 +5,8 @@ import me.maktoba.commands.CommandRegistry;
 import io.github.cdimascio.dotenv.Dotenv;
 import me.maktoba.listeners.GuildListener;
 import me.maktoba.listeners.JoinLeaveListener;
+import me.maktoba.listeners.MessageReactionListener;
+import me.maktoba.listeners.ModerationListener;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -36,11 +38,16 @@ public class JBot {
                               GatewayIntent.DIRECT_MESSAGES);
 
         //cache all users on startup
-        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+        builder.setMemberCachePolicy(MemberCachePolicy.ONLINE);
         builder.setChunkingFilter(ChunkingFilter.ALL);
 
         //add EventListeners to builder from registry
-        builder.addEventListeners(new CommandRegistry(this), new GuildListener(), new JoinLeaveListener());
+        builder.addEventListeners(
+                new CommandRegistry(this),
+                new GuildListener(),
+                new JoinLeaveListener(),
+                new ModerationListener(),
+                new MessageReactionListener());
 
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.watching("JBot"));

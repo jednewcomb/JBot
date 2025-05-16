@@ -5,6 +5,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import java.awt.*;
 import java.time.Instant;
 
+/**
+ * Helper class that provides a basic skeleton for default, error,
+ * and success embeds.
+ */
 public class EmbedUtil {
 
     public static EmbedBuilder createDefaultEmbed() {
