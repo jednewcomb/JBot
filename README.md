@@ -1,36 +1,37 @@
 # JBot
 
-JBot is a multi-purpose Discord bot built using the Java Discord API (JDA).
+**JBot** is a multipurpose Discord bot written in Java using JDA. It includes music playback via Lavalink-compatible tools, moderation utilities, fun commands using external APIs, and more.
 
-# Features
+## 🚀 Features
 
-Responds to user commands.
-- Play Music from audio sources such as Youtube, SoundCloud, Bandcamp, and Vimeo
-- Moderation utilities to create various channel types or categories in your own server
-- Get information on current servers or members of the current server
-- Various text commands to "meme" quotes, reverse text, or hear a joke, etc
-     
-Handles various Discord events.
-- Acknowledges JBot joining or leaving a server
-- Greets new users joining a server, as well as farewells leaving members
-- Tracks bans, unbans, and message deletion events
-    
-# Technologies Used
+- 🎵 Play music from YouTube and other sources
+- 🔧 Moderation commands (ban, unban, etc.)
+- 🤖 Slash commands and event listening
+- 😄 Jokes and fun commands using public APIs
+- 🔐 Environment-based config using `.env`
+- 🧱 Modular architecture with Gradle
 
-    JDA (Java Discord API): A wrapper for the Discord API
-    Lavaplayer: Audio player library used for loading tracks into Opus formats
-    YouTube-Source: Customized audio library for loading youtube, maintained by Lavalink devs.
-    dotenv: Loads environmental files from a .env
-    Jokes4j: A Java Wrapper for Sv443's joke api
-    Logback: A logging framework that picks up where log4j left off.
+## 🧰 Technologies & Libraries
 
-    Built with Gradle 8.10.2
+| Library | Description |
+|--------|-------------|
+| [JDA (Java Discord API)](https://github.com/DV8FromTheWorld/JDA) | A wrapper for the Discord API |
+| [Lavaplayer](https://github.com/sedmelluq/lavaplayer) | Audio player library used for loading tracks into Opus formats |
+| [YouTube-Source](https://github.com/lavalink-devs/youtube-source) | Customized audio source manager for YouTube, maintained by Lavalink devs |
+| [dotenv-java](https://github.com/cdimascio/dotenv-java) | Loads environmental variables from a `.env` file |
+| [jokes4j](https://github.com/IAmNotHax/jokes4j) | A Java wrapper for [Sv443's Joke API](https://jokeapi.dev/) |
+| [Logback](https://github.com/qos-ch/logback) | A modern logging framework and successor to log4j |
 
-# Getting Started
-# Prerequisites
+> ✅ **Built with [Gradle 8.10.2](https://docs.gradle.org/8.10.2/release-notes.html)**
 
-    Java Development Kit (JDK) 8 or higher.
+## 🖼️ Screenshots
 
-    Gradle installed.
+_Add screenshots or GIFs demonstrating command responses, music playback, and admin tools in action._
 
-    A Discord account and a bot token.
+## 🛠️ Setup & Usage
+
+### Prerequisites
+
+- Java 17+ recommended
+- Gradle installed (or use the Gradle wrapper)
+- A registered Discord bot token
