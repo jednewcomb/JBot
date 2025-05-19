@@ -24,15 +24,9 @@
 
 > ✅ **Built with [Gradle 8.10.2](https://docs.gradle.org/8.10.2/release-notes.html)**
 
-## 🖼️ Screenshots
+## 🖼️ Video Demo
+https://www.youtube.com/watch?v=zM6-yrZHETc
 
-![Screenshot 2025-05-19 104102](https://github.com/user-attachments/assets/b2c341e2-1296-4121-9836-c51a3286bbb6)
-
-
-
-## 🛠️ Setup & Usage
-
-### Prerequisites
 
 - Java 17+ recommended
 - Gradle installed (or use the Gradle wrapper)
