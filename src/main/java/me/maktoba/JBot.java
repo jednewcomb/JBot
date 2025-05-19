@@ -42,12 +42,11 @@ public class JBot {
         builder.setChunkingFilter(ChunkingFilter.ALL);
 
         //add EventListeners to builder from registry
-        builder.addEventListeners(
-                new CommandRegistry(this),
-                new GuildListener(),
-                new JoinLeaveListener(),
-                new ModerationListener(),
-                new MessageReactionListener());
+        builder.addEventListeners(new CommandRegistry(this),
+                                  new GuildListener(),
+                                  new JoinLeaveListener(),
+                                  new ModerationListener(),
+                                  new MessageReactionListener());
 
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.watching("JBot"));

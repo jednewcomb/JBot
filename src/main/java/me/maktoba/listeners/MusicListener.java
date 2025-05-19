@@ -19,13 +19,13 @@ import dev.lavalink.youtube.YoutubeAudioSourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * The MusicListener class is responsible for managing the music playback for different guilds.
  * It acts as a singleton INSTANCE and uses Lavaplayer to load and play tracks from various audio sources.
- * As
  *
  * This class registers audio source managers (e.g., YouTube) and allows tracks to be queued and played
  * in Discord voice channels.
@@ -35,30 +35,28 @@ public class MusicListener extends ListenerAdapter {
     private static MusicListener INSTANCE;
     private final AudioPlayerManager playerManager;
     private final Map<Long, GuildMusicHandler> guildMusicManagers;
-    public final YoutubeAudioSourceManager ytSourceManager;
 
-    //TODO: We need to make this work for all the sources we've registered.
     /**
      * Registers audio source managers for YouTube, Vimeo, BandCamp, and SoundCloud.
      */
     private MusicListener() {
         playerManager = new DefaultAudioPlayerManager();
-        VimeoAudioSourceManager vimeoSourceManager = new VimeoAudioSourceManager();
+
+        YoutubeAudioSourceManager ytSourceManager = new YoutubeAudioSourceManager(true, new TvHtml5Embedded());
         BandcampAudioSourceManager bandCampAudioSourceManager = new BandcampAudioSourceManager();
-        ytSourceManager = new YoutubeAudioSourceManager(true, new TvHtml5Embedded());
+        VimeoAudioSourceManager vimeoSourceManager = new VimeoAudioSourceManager();
 
         playerManager.registerSourceManager(ytSourceManager);
-        playerManager.registerSourceManager(vimeoSourceManager);
         playerManager.registerSourceManager(bandCampAudioSourceManager);
-        //playerManager.registerSourceManager(soundCloudAudioSourceManager);;
+        playerManager.registerSourceManager(vimeoSourceManager);
 
         guildMusicManagers = new HashMap<>();
 
         Dotenv oAuthToken = Dotenv.configure().load();
         String ytToken = oAuthToken.get("YOUTUBETOKEN");
 
-//        ytSourceManager.useOauth2(null, false);
-        ytSourceManager.useOauth2(ytToken, true);
+        ytSourceManager.useOauth2(null, false);
+//        ytSourceManager.useOauth2(ytToken, true);
 
         AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);
@@ -134,9 +132,6 @@ public class MusicListener extends ListenerAdapter {
                 }
             }
 
-            /**
-             *
-             */
             @Override
             public void noMatches() {
                 logger.info("No matches found!");
