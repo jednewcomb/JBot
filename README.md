@@ -1,8 +1,8 @@
-JBot
+# JBot
 
-JBot is a Discord bot built using the Java Discord API (JDA). This project serves as a sandbox for experimenting with Discord bot features and Java development.
-GitHub
-Features
+JBot is a multi-purpose Discord bot built using the Java Discord API (JDA).
+
+# Features
 
     Responds to user commands.
      - Play Music from audio sources such as Youtube, SoundCloud, Bandcamp, and Vimeo
@@ -16,7 +16,7 @@ Features
      - Tracks bans, unbans, and message deletion events
     
 
-Technologies Used
+# Technologies Used
 
     JDA (Java Discord API): A wrapper for the Discord API
     Lavaplayer: Audio player library used for loading tracks into Opus formats
@@ -27,8 +27,8 @@ Technologies Used
 
     Built with Gradle 8.10.2
 
-Getting Started
-Prerequisites
+# Getting Started
+# Prerequisites
 
     Java Development Kit (JDK) 8 or higher.
 
