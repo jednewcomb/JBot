@@ -2,7 +2,7 @@
 
 **JBot** is a multipurpose Discord bot written in Java using JDA. It includes music playback via Lavalink-compatible tools, moderation utilities, fun commands using external APIs, and more.
 
-## 🚀 Features
+## Features
 
 - 🎵 Play music from YouTube and other sources
 - 🔧 Moderation commands (ban, unban, etc.)
@@ -11,7 +11,7 @@
 - 🔐 Environment-based config using `.env`
 - 🧱 Modular architecture with Gradle
 
-## 🧰 Technologies & Libraries
+## Technologies & Libraries
 
 | Library | Description |
 |--------|-------------|
