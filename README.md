@@ -4,18 +4,17 @@ JBot is a multi-purpose Discord bot built using the Java Discord API (JDA).
 
 # Features
 
-    Responds to user commands.
-     - Play Music from audio sources such as Youtube, SoundCloud, Bandcamp, and Vimeo
-     - Moderation utilities to create various channel types or categories in your own server
-     - Get information on current servers or members of the current server
-     - Various text commands to "meme" quotes, reverse text, or hear a joke, etc
+Responds to user commands.
+- Play Music from audio sources such as Youtube, SoundCloud, Bandcamp, and Vimeo
+- Moderation utilities to create various channel types or categories in your own server
+- Get information on current servers or members of the current server
+- Various text commands to "meme" quotes, reverse text, or hear a joke, etc
      
-    Handles various Discord events.
-     - Acknowledges JBot joining or leaving a server
-     - Greets new users joining a server, as well as farewells leaving members
-     - Tracks bans, unbans, and message deletion events
+Handles various Discord events.
+- Acknowledges JBot joining or leaving a server
+- Greets new users joining a server, as well as farewells leaving members
+- Tracks bans, unbans, and message deletion events
     
-
 # Technologies Used
 
     JDA (Java Discord API): A wrapper for the Discord API
