@@ -28,6 +28,10 @@
 
 _Add screenshots or GIFs demonstrating command responses, music playback, and admin tools in action._
 
+![Screenshot 2025-05-19 104102](https://github.com/user-attachments/assets/b2c341e2-1296-4121-9836-c51a3286bbb6)
+
+
+
 ## 🛠️ Setup & Usage
 
 ### Prerequisites
