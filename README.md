@@ -5,7 +5,7 @@
 ## Features
 
 - 🎵 Play music from YouTube and other sources
-- 🔧 Moderation commands (ban, unban, etc.)
+- 🔧 Moderation commands (ban/unban, create channels, etc.)
 - 🤖 Slash commands and event listening
 - 😄 Jokes and fun commands using public APIs
 - 🔐 Environment-based config using `.env`
