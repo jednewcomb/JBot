@@ -13,7 +13,7 @@
 
 ## Technologies & Libraries
 
-| Library | Description |
+|        |             |
 |--------|-------------|
 | [JDA (Java Discord API)](https://github.com/DV8FromTheWorld/JDA) | A wrapper for the Discord API |
 | [Lavaplayer](https://github.com/sedmelluq/lavaplayer) | Audio player library used for loading tracks into Opus formats |
